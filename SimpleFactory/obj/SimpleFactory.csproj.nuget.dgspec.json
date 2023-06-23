@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj": {}
+    "/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/SimpleFactory.csproj": {}
   },
   "projects": {
-    "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj": {
+    "/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/SimpleFactory.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj",
+        "projectUniqueName": "/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/SimpleFactory.csproj",
         "projectName": "SimpleFactory",
-        "projectPath": "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj",
-        "packagesPath": "C:\\Users\\TomMo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\obj\\",
+        "projectPath": "/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/SimpleFactory.csproj",
+        "packagesPath": "/Users/tommoseley/.nuget/packages/",
+        "outputPath": "/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\TomMo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/tommoseley/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -55,7 +53,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.410/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,0 +1,27 @@
+﻿<Properties StartupConfiguration="{C886F193-7CFC-4BB3-849D-EC79983AE29F}|Default">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.SimpleFactory PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="SimpleFactory/Blueprint.cs">
+    <Files>
+      <File FileName="SimpleFactory/Program.cs" Line="17" Column="1" />
+      <File FileName="SimpleFactory/Blueprint.cs" Line="32" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="SimpleFactory">
+            <Node name="SimpleFactory">
+              <Node name="Dependencies" expanded="True" />
+              <Node name="Blueprint.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+</Properties>

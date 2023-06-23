@@ -1,0 +1,15 @@
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/obj/Debug/net6.0/SimpleFactory.csproj.AssemblyReference.cache
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/obj/Debug/net6.0/SimpleFactory.GeneratedMSBuildEditorConfig.editorconfig
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/obj/Debug/net6.0/SimpleFactory.AssemblyInfoInputs.cache
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/obj/Debug/net6.0/SimpleFactory.AssemblyInfo.cs
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/obj/Debug/net6.0/SimpleFactory.csproj.CoreCompileInputs.cache
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/bin/Debug/net6.0/SimpleFactory
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/bin/Debug/net6.0/SimpleFactory.deps.json
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/bin/Debug/net6.0/SimpleFactory.runtimeconfig.json
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/bin/Debug/net6.0/SimpleFactory.dll
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/bin/Debug/net6.0/SimpleFactory.pdb
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/obj/Debug/net6.0/SimpleFactory.dll
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/obj/Debug/net6.0/refint/SimpleFactory.dll
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/obj/Debug/net6.0/SimpleFactory.pdb
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/obj/Debug/net6.0/SimpleFactory.genruntimeconfig.cache
+/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/obj/Debug/net6.0/ref/SimpleFactory.dll

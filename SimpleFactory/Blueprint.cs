@@ -8,24 +8,11 @@ namespace SimpleFactory
 {
     internal class Blueprint
     {
-        public Blueprint (string Name)
+        public Blueprint ()
         {
-
         }
-        public string Name { get; set; }
-        public Dictionary<string, int> Recipe = new Dictionary<string, int> ();
-        public bool CanMake(Dictionary<string, int> inventory)
-        {
-            foreach (string key in Recipe.Keys)
-            {
-                if (inventory.ContainsKey (key) == false || inventory[key] < Recipe[key])
-                {
-                    return false;
-                }
-
-            }
-            return true;
-        }
-
+        public string? Name { get; set; }
+        public Dictionary<Component, int> Recipe = new Dictionary<Component, int> ();
+ 
     }
 }
