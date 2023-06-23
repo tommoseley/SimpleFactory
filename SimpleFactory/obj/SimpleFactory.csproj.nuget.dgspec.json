@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Tom\\source\\repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj": {}
+    "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Tom\\source\\repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj": {
+    "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tom\\source\\repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj",
+        "projectUniqueName": "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj",
         "projectName": "SimpleFactory",
-        "projectPath": "C:\\Users\\Tom\\source\\repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj",
-        "packagesPath": "C:\\Users\\Tom\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tom\\source\\repos\\SimpleFactory\\SimpleFactory\\obj\\",
+        "projectPath": "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj",
+        "packagesPath": "C:\\Users\\TomMo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Tom\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\TomMo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
