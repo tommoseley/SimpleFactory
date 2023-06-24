@@ -10,24 +10,26 @@ public static class Runner
         // See https://aka.ms/new-console-template for more information
         Console.WriteLine("Hello, World!");
         string? val;
-        ComponentCollection Inventory = new();
+        ComponentCollection inventory = new();
         List<Blueprint> Blueprints = new();
-        Component SteelBlock = new Component
+        Component SteelBlock = new()
         {
             Name = "Steel Block"
         };
-        Component SteelPlate = new Component
+        Component SteelPlate = new()
         {
             Name = "Steel Plate",
         };
         SteelPlate.Recipe.Add(SteelBlock, 2);
         Component result;
-        Inventory.Add(SteelBlock);
-        bool canMake = SteelPlate.CanMake(Inventory);
-        Console.WriteLine(String.Format("{0} can make it: {1}", Inventory.ItemCount(SteelBlock), canMake));
-        Inventory.Add(SteelBlock);
-        canMake = SteelPlate.CanMake(Inventory);
-        Console.WriteLine(String.Format("{0} can make it: {1}", Inventory.ItemCount(SteelBlock), canMake));
+        inventory.Add(SteelBlock);
+        bool canMake = SteelPlate.CanMake(inventory);
+        Console.WriteLine(String.Format("{0} can make it: {1}", inventory.ItemCount(SteelBlock), canMake));
+        inventory.Add(SteelBlock);
+        canMake = SteelPlate.CanMake(inventory);
+        Console.WriteLine(String.Format("{0} can make it: {1}", inventory.ItemCount(SteelBlock), canMake));
+        result = SteelPlate.Make(inventory);
+        Console.WriteLine("Made: " + result.Name);
         do
         {
             val = Console.ReadLine();

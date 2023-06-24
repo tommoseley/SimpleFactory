@@ -15,11 +15,15 @@ namespace SimpleFactory
 
         public void Add(Component item)
         {
+            Add(item, 1);
+        }
+        public void Add(Component item, int count)
+        {
             if (Contains(item))
-                Container[item] += 1;
+                Container[item] += count;
             else
             {
-                Container.Add(item, 1);
+                Container.Add(item, count);
             }
         }
 
@@ -52,10 +56,14 @@ namespace SimpleFactory
 
         public bool Remove(Component item)
         {
+            return Remove(item, 1);
+        }
+        public bool Remove(Component item, int count)
+        {
             if (Contains(item))
             {
-                Container[item] -= 1;
-                if (Container[item] == 0)
+                Container[item] -= count;
+                if (Container[item] <= 0)
                     Container.Remove(item);
                 return true;
             }

@@ -21,6 +21,18 @@ namespace SimpleFactory
             }
             return true;
         }
+        public Component Make (ComponentCollection inventory)
+        {
+            if (CanMake(inventory))
+            {
+                foreach (Component key in Recipe.Keys)
+                {
+                    inventory.Remove(key, Recipe[key]);
+                }
+                return new Component() { Name = this.Name };
+            }
+            return null;
+        }
 
         int IComparable<Component>.CompareTo(Component? other)
         {
