@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj": {}
+    "C:\\Users\\TomMo\\source\\repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj": {}
   },
   "projects": {
-    "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj": {
+    "C:\\Users\\TomMo\\source\\repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj",
+        "projectUniqueName": "C:\\Users\\TomMo\\source\\repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj",
         "projectName": "SimpleFactory",
-        "projectPath": "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj",
+        "projectPath": "C:\\Users\\TomMo\\source\\repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj",
         "packagesPath": "C:\\Users\\TomMo\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\TomMo\\Source\\Repos\\SimpleFactory\\SimpleFactory\\obj\\",
         "projectStyle": "PackageReference",
