@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+t06e2YRkB7tAgyPwXcZXtTabCC2OSMxW8lrKGmGxhZPe3PY6jnhwV6qOadg8RUW7giu6SX98V/ONuUXqZQu1A==",
+  "dgSpecHash": "raVq3MO0dSoypgwxy6TPzupk1g0172NeDjZLHC6lJ3eyyK3SzvmsOPRPvhJlqYM30XykHlqX/Jq9UCbqz92ahA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\TomMo\\source\\repos\\SimpleFactory\\SimpleFactory\\SimpleFactory.csproj",
+  "projectFilePath": "/Users/tommoseley/Documents/Projects/SimpleFactory/SimpleFactory/SimpleFactory.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
