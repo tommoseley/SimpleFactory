@@ -1,28 +1,26 @@
 ﻿<Properties StartupConfiguration="{C886F193-7CFC-4BB3-849D-EC79983AE29F}|Default">
-  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.SimpleFactory PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workbench ActiveDocument="SimpleFactory/ComponentCollection.cs">
     <Files>
       <File FileName="SimpleFactory/Program.cs" />
       <File FileName="SimpleFactory/Blueprint.cs" />
       <File FileName="SimpleFactory/Component.cs" />
-      <File FileName="SimpleFactory/ComponentCollection.cs" Line="40" Column="36" />
+      <File FileName="SimpleFactory/ComponentCollection.cs" Line="44" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="SimpleFactory">
-            <Node name="SimpleFactory" expanded="True">
-              <Node name="ComponentCollection.cs" selected="True" />
-            </Node>
+            <Node name="SimpleFactory" expanded="True" />
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.ItemProperties.SimpleFactory PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>
