@@ -1,2 +1,4 @@
 UserPrefs.xml
 .vs/
+bin/
+obj/
