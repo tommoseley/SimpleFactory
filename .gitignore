@@ -1,4 +1,7 @@
 UserPrefs.xml
+/.vs
+/.obj
+/.bin
 /.vs/ProjectEvaluation/simplefactory.metadata.v7.bin
 /.vs/ProjectEvaluation/simplefactory.projects.v7.bin
 /.vs/SimpleFactory/DesignTimeBuild/.dtbcache.v2
