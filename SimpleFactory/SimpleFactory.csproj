@@ -15,8 +15,4 @@
     <Folder Include="Data\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="bin\Debug\net6.0\blueprints.json" />
-  </ItemGroup>
-
 </Project>

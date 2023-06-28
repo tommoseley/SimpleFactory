@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
-using SimpleFactory;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json;
 using System.IO;
+using SimpleFactory.Machines;
 //using SimpleFactory.Components;
 //using SimpleFactory.Blueprints;
 public static class Runner
@@ -15,35 +15,34 @@ public static class Runner
         Console.WriteLine("Hello, World!");
         string? val;
 
-        List<InventoryItem> inventory = new();
-        List<Blueprint> blueprints = new();
-        string fileName = "blueprints.json";
-        string jsonString = File.ReadAllText(fileName);
-        blueprints = JsonSerializer.Deserialize<List<Blueprint>>(jsonString);
-        fileName = "data.json";
-        inventory = JsonSerializer.Deserialize<List<InventoryItem>>(jsonString);
+        Dictionary<string, int> inventory = new();
+        inventory.Add ("Steel Block", 2);
 
-        Blueprint SteelPlate = blueprints.Find(x => x.Name == "Steel Plate");
-
-        InventoryItem Carbon = new("Carbon", 2);
-        InventoryItem SteelBlock = new("Steel Block", 1);
-      
-        inventory.Add(Carbon);
-        inventory.Add(SteelBlock);
-        bool canMake = SteelPlate.CanMake(inventory);
+        //inventory.Add(Carbon);
+        //inventory.Add(SteelBlock);
+        Machine Assembler = new Machine() { Name = "Assembler" };
+        Blueprint SteelPlate = new Blueprint("Steel Plate", new Dictionary<string, int>() { { "Carbon", 4 }, { "Steel Block", 2 } });
+        Assembler.Blueprints.Add(SteelPlate.Name, SteelPlate);
+        bool canMake = Assembler.CanMake(SteelPlate.Name, inventory);
         Console.WriteLine(String.Format("can make it: {0}", canMake));
-        Carbon.Add(4);
-        SteelBlock.Add(2);
-        canMake = SteelPlate.CanMake(inventory);
-        Console.WriteLine("can make it: {0}", canMake);
-        if (SteelPlate.CanMake(inventory))
-            inventory.Add(SteelPlate.Make(inventory));
-        fileName = "data.json";
-        jsonString = JsonSerializer.Serialize(inventory);
+        inventory.Add("Carbon", 4);
+        canMake = Assembler.CanMake(SteelPlate.Name, inventory);
+        Console.WriteLine(String.Format("can make it: {0}", canMake));
+        if (canMake)
+            Assembler.Make(SteelPlate.Name, inventory);
+        Console.ReadLine();
+        //Carbon.Add(4);
+        //SteelBlock.Add(2);
+        //canMake = SteelPlate.CanMake(inventory);
+        //Console.WriteLine("can make it: {0}", canMake);
+        //if (SteelPlate.CanMake(inventory))
+        //    inventory.Add(SteelPlate.Make(inventory));
+        //fileName = "data.json";
+        //jsonString = JsonSerializer.Serialize(inventory);
 
-        File.WriteAllText(fileName, jsonString);
-        Console.WriteLine(jsonString);
-        Console.WriteLine("Press any key to exit.");
+        //File.WriteAllText(fileName, jsonString);
+        //Console.WriteLine(jsonString);
+        //Console.WriteLine("Press any key to exit.");
 
     }
 }
