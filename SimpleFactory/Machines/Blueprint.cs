@@ -20,7 +20,7 @@ namespace SimpleFactory.Machines
             Requirements = requirements;
             Name = name;
         }
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public Dictionary<string, int> Requirements { get; set; }
 
         internal bool CanMake(Dictionary<string, int> inventory)
@@ -43,11 +43,11 @@ namespace SimpleFactory.Machines
                 {
                     inventory[item] -= Requirements[item];
                 }
+
                 if (!inventory.ContainsKey(Name))
-                {
-                    inventory.Add(Name, 0);
-                }
-                inventory[Name] += 1;
+                    inventory.Add(Name, 1);
+                else
+                    inventory[Name] += 1;
                 return true;
             }
             return (false);
