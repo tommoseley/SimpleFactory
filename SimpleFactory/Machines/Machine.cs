@@ -11,22 +11,25 @@ namespace SimpleFactory.Machines
         public Machine() 
         {
             Blueprints = new();
+            Hopper = new();
+            Name = string.Empty;
         }
         public string Name { get; set; }
         public Dictionary<string, Blueprint> Blueprints { get; set; }
-        public bool CanMake (string BlueprintName, Dictionary<string, int> inventory)
+        public ComponentCollection Hopper { get; set; }  
+        public bool CanMake (string BlueprintName)
         {
             if (Blueprints.ContainsKey(BlueprintName))
             {
-                return Blueprints[BlueprintName].CanMake(inventory);
+                return Blueprints[BlueprintName].CanMake(Hopper);
             }
             return false;
         }
-        public bool Make (string BlueprintName, Dictionary<string, int> inventory)
+        public bool Make (string BlueprintName)
         {
             if (Blueprints.ContainsKey(BlueprintName))
             {
-                return Blueprints[BlueprintName].Make(inventory);
+                return Blueprints[BlueprintName].Make(Hopper);
             }
             return false;
         }

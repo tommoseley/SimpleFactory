@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Collections;
+using System.Text;
+
 namespace SimpleFactory
 {
-	public class ComponentCollection : ICollection <Component>
-	{
-		public ComponentCollection()
-		{
-		}
-        private readonly Dictionary<Component, int> Container = new();
+    public class ComponentCollection
+    {
+        public ComponentCollection()
+        {
+        }
+        private readonly Dictionary<string, int> Container = new();
 
         public int Count => Container.Count;
 
-        public bool IsReadOnly => true;
-
-        public void Add(Component item)
+        public void Add(string key)
         {
-            Add(item, 1);
+            Add(key, 1);
         }
-        public void Add(Component item, int count)
+        public void Add(string key, int count)
         {
-            if (Contains(item))
-                Container[item] += count;
+            if (Contains(key))
+                Container[key] += count;
             else
             {
-                Container.Add(item, count);
+                Container.Add(key, count);
             }
         }
 
@@ -32,47 +32,56 @@ namespace SimpleFactory
             Container.Clear();
         }
 
-        public bool Contains(Component item)
+        public bool Has (string key, int count)
         {
-            return Container.ContainsKey(item);
-        }
-
-        public int ItemCount(Component item)
-        {
-            if (Contains(item) == false)
-                return 0;
-            return Container[item];
-        }
-
-        public void CopyTo(Component[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerator<Component> GetEnumerator()
-        {
-            return Container.Keys.GetEnumerator();
-        }
-
-        public bool Remove(Component item)
-        {
-            return Remove(item, 1);
-        }
-        public bool Remove(Component item, int count)
-        {
-            if (Contains(item))
+            if ( Contains (key) )
             {
-                Container[item] -= count;
-                if (Container[item] <= 0)
-                    Container.Remove(item);
+                return Container[key] >= count;
+            }
+            return Contains(key);
+        }
+        public bool Contains (string key)
+        {
+            return Container.ContainsKey(key);
+        }
+
+        public int ItemCount(string key)
+        {
+            if (Contains(key) == false)
+                return 0;
+            return Container[key];
+        }
+
+        public bool Remove(string key)
+        {
+            return Remove(key, 1);
+        }
+        public bool Remove(string key, int count)
+        {
+            if (Contains(key))
+            {
+                Container[key] -= count;
+                if (Container[key] <= 0)
+                    Container.Remove(key);
                 return true;
             }
             return false;
         }
-
-        IEnumerator IEnumerable.GetEnumerator()
+        public bool RemoveAll(string key)
         {
-            return Container.GetEnumerator();
+            if (Contains(key) == false)
+                return false;
+            return Container.Remove(key);
+        }
+        public override string ToString()
+        {
+            StringBuilder sb = new();   
+            sb.AppendLine("Inventory:");
+            foreach (string key in Container.Keys)
+            {
+                sb.AppendLine($"{key}({Container[key]}) ");
+            }
+            return sb.ToString();
         }
     }
 }

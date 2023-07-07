@@ -23,31 +23,24 @@ namespace SimpleFactory.Machines
         public string Name { get; set; }
         public Dictionary<string, int> Requirements { get; set; }
 
-        internal bool CanMake(Dictionary<string, int> inventory)
+        internal bool CanMake(ComponentCollection inventory)
         {
-            foreach (string item in Requirements.Keys)
+            foreach (string key in Requirements.Keys)
             {
-                if (!inventory.ContainsKey(item) || inventory[item] < Requirements[item])
-                {
-                    return false;
-                }
-
+                if (!inventory.Has(key, Requirements[key])) return false;
+  
             }
             return true;
         }
-        internal bool Make(Dictionary<string, int> inventory)
+        internal bool Make(ComponentCollection inventory)
         {
             if (CanMake(inventory))
             {
-                foreach (string item in Requirements.Keys)
+                foreach (string key in Requirements.Keys)
                 {
-                    inventory[item] -= Requirements[item];
+                    inventory.Remove(key, Requirements[key]); 
                 }
-
-                if (!inventory.ContainsKey(Name))
-                    inventory.Add(Name, 1);
-                else
-                    inventory[Name] += 1;
+                inventory.Add(Name);
                 return true;
             }
             return (false);
