@@ -7,72 +7,110 @@ using System.IO;
 using SimpleFactory.Machines;
 //using SimpleFactory.Components;
 //using SimpleFactory.Blueprints;
-using SimpleFactory;
+using SimpleFactory.Components;
+using System.Runtime.CompilerServices;
+using SimpleFactory.Blueprints;
+
 public static class Runner
 {
     public static void Main(String[] Args)
     {
-        // See https://aka.ms/new-console-template for more information
-        Console.WriteLine("Hello, World!");
+        List<Machine> machines = new List<Machine>();
         string? val;
-        ComponentCollection Hopper = new();
-        Hopper.Add("Carbon", 4);
-        Hopper.Add("Steel Block", 2);
-        Machine Assembler = new Machine() { Name = "Assembler" };
-        Blueprint SteelPlate = new Blueprint("Steel Plate", new Dictionary<string, int>() { { "Carbon", 4 }, { "Steel Block", 2 } });
-        Assembler.Blueprints.Add(SteelPlate.Name, SteelPlate);
-        Console.WriteLine(Hopper.ToString());
+        ComponentCollection FactoryInventory = new ComponentCollection() { Name = "Factory Inventory" };
         while (true)
         {
-            Console.WriteLine("Enter a command:");
+            FactoryInventory.ToConsole(Console.WindowWidth / 2, 0, ConsoleColor.Yellow);
+            Console.WriteLine(
+                "Enter a command: add <count> <item>, make <item>");
+            Console.WriteLine(
+                "                 machines, exit");
+            Console.Write(">");
             val = Console.ReadLine();
             if (val == null)
                 break;
             if (val == "exit")
                 break;
-            //q:how do I parse val to get an item and count to add to the Hopper?
+            Console.Clear();
             string[] parts = val.Split(' ');
-            if (parts.Length == 2)
+            switch (parts[0])
             {
-                if (int.TryParse(parts[1], out int count))
-                {
-                    Hopper.Add(parts[0], count);
-                }
+                case "add":
+                    if (parts.Length > 2)
+                    {
+                        if (int.TryParse(parts[1], out int count))
+                        {
+                            StringBuilder stringBuilder = new StringBuilder();  
+                            for (int i = 2; i < parts.Length; i++)
+                            {
+                                stringBuilder.Append(parts[i].ToUpperInvariant());
+                                if (i < parts.Length - 1)
+                                    stringBuilder.Append(" ");
+                            }
+                            FactoryInventory.Add(stringBuilder.ToString(), count);
+                        }
+                    }
+                    break;
+                case "make":
+                    if (parts.Length == 2)
+                    {
+                        machines[0].Hopper = FactoryInventory;
+                        if (machines[0].CanMake(parts[1]))
+                        {
+                            machines[0].Make(parts[1]);
+                        }
+                    }
+                    break;
+                case "machines":
+                    ShowMachines(machines[0]);
+                    break;
+                default:
+                    Console.WriteLine(String.Format("You entered: {0}", val));
+                    break;
             }
-            Console.WriteLine(String.Format("You entered: {0}", val));
         }
-
-        //Dictionary<string, int> inventory = new();
-        //inventory.Add ("Steel Block", 2);
-        ////comment added!
-        ////inventory.Add(Carbon);
-        ////inventory.Add(SteelBlock);
-        //bool canMake = Assembler.CanMake(SteelPlate.Name, inventory);
-        //Console.WriteLine(String.Format("can make it: {0}", canMake));
-        //inventory.Add("Carbon", 4);
-        //canMake = Assembler.CanMake(SteelPlate.Name, inventory);
-        //Console.WriteLine(String.Format("can make it: {0}", canMake));
-        //if (canMake)
-        //    Assembler.Make(SteelPlate.Name, inventory);
-        //Console.ReadLine();
-        ////Carbon.Add(4);
-        ////SteelBlock.Add(2);
-        //canMake = SteelPlate.CanMake(inventory);
-        //Console.WriteLine("can make it: {0}", canMake);
-        //if (SteelPlate.CanMake(inventory))
-        //    inventory.Add(SteelPlate.Make(inventory));
-        //fileName = "data.json";
-        //jsonString = JsonSerializer.Serialize(inventory);
-
-        //File.WriteAllText(fileName, jsonString);
-        //Console.WriteLine(jsonString);
-        //Console.WriteLine("Press any key to exit.");
-
     }
 
 
+    public static void ShowMachines(Machine machine)
+    {
+        int left = Console.CursorLeft;
+        int top = Console.CursorTop;
+        Console.ForegroundColor = ConsoleColor.Cyan;
 
-        
+        int LineNumber = 10;
+        Console.SetCursorPosition(0, LineNumber++);
+
+        Console.WriteLine("Machines:");
+        Console.SetCursorPosition(0, LineNumber++);
+        Console.WriteLine("---------------");
+        Console.SetCursorPosition(0, LineNumber++);
+        Console.WriteLine("Name:     {0}", machine.Name);
+        Console.SetCursorPosition(0, LineNumber);
+        Console.Write("Recipes:");
+        Console.SetCursorPosition(10, LineNumber++);
+        foreach (string key in machine.Blueprints.Keys)
+        {
+            Console.WriteLine(String.Format("{0}", machine.Blueprints[key].Name));
+            Console.SetCursorPosition(10, LineNumber++);
+        }
+
+        Console.SetCursorPosition(left, top);
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine();
+    }
+    public static void CreateMachines (List<Machine> machines)
+    {
+        Machine Assembler = new Machine() { Name = "Assembler" };
+        Blueprint SteelPlate = new Blueprint("SteelPlate",
+            new Dictionary<string, int>() { { "Carbon", 4 }, { "Steel Block", 2 } });
+        Assembler.Blueprints.Add(SteelPlate.Name, SteelPlate);
+        Blueprint Money = new Blueprint("Money",
+            new Dictionary<string, int>() { { "Carbon", 4 } });
+        Assembler.Blueprints.Add(Money.Name, Money);
+        machines.Add(Assembler);
+    }
+
     public static string LoadJson(string fileName)
     {
         return File.ReadAllText(fileName);

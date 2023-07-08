@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using SimpleFactory.Blueprints;
+using SimpleFactory.Components;
 namespace SimpleFactory.Machines
 {
-    internal class Machine
+    public class Machine
     {
         public Machine() 
         {

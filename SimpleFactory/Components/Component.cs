@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Collections;
-
-namespace SimpleFactory
+using SimpleFactory.Blueprints;
+namespace SimpleFactory.Components
 {
 
-    public class Component : IComparable<Component>
+    public abstract class Component : IComparable<Component>
     {
         public Component()
         {
             Name = string.Empty;
+            Blueprint = null;
         }
         public string Name { get; set; }
 
@@ -20,6 +21,7 @@ namespace SimpleFactory
                 return 1;
             return Name == other.Name ? 0 : 1;
         }
+        public Blueprint? Blueprint{ get; set; }
     }
 }
 

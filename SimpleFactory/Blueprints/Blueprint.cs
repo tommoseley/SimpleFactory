@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace SimpleFactory.Machines
+using SimpleFactory.Components;
+namespace SimpleFactory.Blueprints
 {
     [Serializable]
     public class Blueprint
