@@ -10,6 +10,7 @@ using SimpleFactory.Machines;
 using SimpleFactory.Components;
 using System.Runtime.CompilerServices;
 using SimpleFactory.Blueprints;
+using SimpleFactory.Regions;
 
 public static class Runner
 {
@@ -18,9 +19,11 @@ public static class Runner
         List<Machine> machines = new List<Machine>();
         string? val;
         ComponentCollection FactoryInventory = new ComponentCollection() { Name = "Factory Inventory" };
+        InventoryRegion region = new InventoryRegion (Console.WindowWidth / 2, 0, ConsoleColor.Yellow, FactoryInventory); 
+
         while (true)
         {
-            FactoryInventory.ToConsole(Console.WindowWidth / 2, 0, ConsoleColor.Yellow);
+            region.UpdateText();
             Console.WriteLine(
                 "Enter a command: add <count> <item>, make <item>");
             Console.WriteLine(

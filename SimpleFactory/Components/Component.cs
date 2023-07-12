@@ -22,6 +22,10 @@ namespace SimpleFactory.Components
             return Name == other.Name ? 0 : 1;
         }
         public Blueprint? Blueprint{ get; set; }
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
 

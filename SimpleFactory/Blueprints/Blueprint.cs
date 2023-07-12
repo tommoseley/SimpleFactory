@@ -15,17 +15,20 @@ namespace SimpleFactory.Blueprints
             Requirements = new();
             Name = "Blueprint";
         }
-        public Blueprint(string name, Dictionary<string, int> requirements)
+        public Blueprint(string name, Dictionary<Component, int> requirements)
         {
             Requirements = requirements;
             Name = name;
         }
         public string Name { get; set; }
-        public Dictionary<string, int> Requirements { get; set; }
-
+        public Dictionary<Component, int> Requirements { get; set; }
+        public void AddComponent (Component component, int count)
+        {
+            Requirements.Add(component, count);
+        }
         internal bool CanMake(ComponentCollection inventory)
         {
-            foreach (string key in Requirements.Keys)
+            foreach (Component key in Requirements.Keys)
             {
                 if (!inventory.Has(key, Requirements[key])) return false;
   
@@ -36,11 +39,11 @@ namespace SimpleFactory.Blueprints
         {
             if (CanMake(inventory))
             {
-                foreach (string key in Requirements.Keys)
+                foreach (Component key in Requirements.Keys)
                 {
                     inventory.Remove(key, Requirements[key]); 
                 }
-                inventory.Add(Name);
+             //   inventory.Add(Name);
                 return true;
             }
             return (false);
