@@ -12,26 +12,40 @@ namespace SimpleFactory.Components
     {
         // create a sorted list of Components, sorted by the component name
 
-        private static SortedList<string, Component> components = new SortedList<string, Component>();
+        private static SortedList<string, Component> components = new SortedList<string, Component>(StringComparer.OrdinalIgnoreCase);
         public static Component GetComponent(string name)
         {
             if (components.ContainsKey(name))
                 return components[name];
             else
             {
-                Component component = new Component();
-                component.Name = name;
-                components.Add(name, component);
-                return component;
+                return null;
             }
+        }
+        private static void AddComponent(string name)
+        {
+            Component component = new Component();
+            component.Name = name;
+            components.Add(name, component);
         }
         public static void CreateComponents()
         {
-            GetComponent("Steel Plate");
-            GetComponent("Steel Block");
-            GetComponent("Carbon");
-            GetComponent("Steel Sheet");
-            GetComponent("Iron Block");
+            AddComponent("Steel Plate");
+            AddComponent("Steel Block");
+            AddComponent("Carbon");
+            AddComponent("Steel Sheet");
+            AddComponent("Iron Block");
         }
+        public static void CreateBlueprints()
+        {
+            var SteelPlate = GetComponent("Steel Plate");
+            if (SteelPlate != null)
+            {
+                Blueprints.Blueprint blueprint = SteelPlate.CreateBluePrint();
+                blueprint.AddRequirement("Steel Block", 2);
+                blueprint.AddRequirement("Carbon", 1);
+            }
+        }
+
     }
 }

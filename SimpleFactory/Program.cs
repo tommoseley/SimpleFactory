@@ -18,12 +18,20 @@ public static class Runner
     {
         List<Machine> machines = new List<Machine>();
         string? val;
-        ComponentCollection FactoryInventory = new ComponentCollection() { Name = "Factory Inventory" };
-        InventoryRegion region = new InventoryRegion (Console.WindowWidth / 2, 0, ConsoleColor.Yellow, FactoryInventory); 
+        ComponentFactory.CreateComponents();
+        ComponentFactory.CreateBlueprints();
+        CreateMachines(machines);
+        List<Region> regions = new List<Region>();
 
+        ComponentCollection FactoryInventory = new ComponentCollection() { Name = "Factory Inventory" };
+        regions.Add (new InventoryRegion (Console.WindowWidth / 2, 0, ConsoleColor.Yellow, FactoryInventory));
+        regions.Add (new MachinesRegion(Console.WindowWidth / 2, 15, ConsoleColor.Cyan, machines));
+       // Component SteelPlate = ComponentFactory.GetComponent("Steel Plate");
+        
         while (true)
         {
-            region.UpdateText();
+            foreach (Region region in regions)
+                region.UpdateRegionText();
             Console.WriteLine(
                 "Enter a command: add <count> <item>, make <item>");
             Console.WriteLine(
@@ -46,26 +54,42 @@ public static class Runner
                             StringBuilder stringBuilder = new StringBuilder();  
                             for (int i = 2; i < parts.Length; i++)
                             {
-                                stringBuilder.Append(parts[i].ToUpperInvariant());
+                                stringBuilder.Append(parts[i]);
                                 if (i < parts.Length - 1)
                                     stringBuilder.Append(" ");
                             }
-                            FactoryInventory.Add(stringBuilder.ToString(), count);
+                            Component addedComponent = ComponentFactory.GetComponent(stringBuilder.ToString());
+                            if (addedComponent != null)
+                                FactoryInventory.Add(addedComponent, count);
+                            else
+                                Console.WriteLine(string.Format("Component {0} not found", stringBuilder.ToString()));
+
                         }
                     }
                     break;
                 case "make":
-                    if (parts.Length == 2)
+                    if (parts.Length >1)
                     {
-                        machines[0].Hopper = FactoryInventory;
-                        if (machines[0].CanMake(parts[1]))
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (int i = 1; i < parts.Length; i++)
                         {
-                            machines[0].Make(parts[1]);
+                            stringBuilder.Append(parts[i]);
+                            if (i < parts.Length - 1)
+                                stringBuilder.Append(" ");
+                        }
+                        Component toMake = ComponentFactory.GetComponent(stringBuilder.ToString());
+                        if (toMake != null)
+                        {
+                            if (machines[0].Produces.Contains(toMake))
+                            {
+                                machines[0].Hopper = FactoryInventory;
+                                if (toMake.Blueprint.CanMake(FactoryInventory))
+                                {
+                                    toMake.Blueprint.Make(FactoryInventory);
+                                }
+                            }
                         }
                     }
-                    break;
-                case "machines":
-                    ShowMachines(machines[0]);
                     break;
                 default:
                     Console.WriteLine(String.Format("You entered: {0}", val));
@@ -75,43 +99,16 @@ public static class Runner
     }
 
 
-    public static void ShowMachines(Machine machine)
+    public static void CreateComponents ()
     {
-        int left = Console.CursorLeft;
-        int top = Console.CursorTop;
-        Console.ForegroundColor = ConsoleColor.Cyan;
 
-        int LineNumber = 10;
-        Console.SetCursorPosition(0, LineNumber++);
-
-        Console.WriteLine("Machines:");
-        Console.SetCursorPosition(0, LineNumber++);
-        Console.WriteLine("---------------");
-        Console.SetCursorPosition(0, LineNumber++);
-        Console.WriteLine("Name:     {0}", machine.Name);
-        Console.SetCursorPosition(0, LineNumber);
-        Console.Write("Recipes:");
-        Console.SetCursorPosition(10, LineNumber++);
-        foreach (string key in machine.Blueprints.Keys)
-        {
-            Console.WriteLine(String.Format("{0}", machine.Blueprints[key].Name));
-            Console.SetCursorPosition(10, LineNumber++);
-        }
-
-        Console.SetCursorPosition(left, top);
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine();
     }
     public static void CreateMachines (List<Machine> machines)
     {
         Machine Assembler = new Machine() { Name = "Assembler" };
-        Blueprint SteelPlate = new Blueprint("SteelPlate",
-            new Dictionary<string, int>() { { "Carbon", 4 }, { "Steel Block", 2 } });
-        Assembler.Blueprints.Add(SteelPlate.Name, SteelPlate);
-        Blueprint Money = new Blueprint("Money",
-            new Dictionary<string, int>() { { "Carbon", 4 } });
-        Assembler.Blueprints.Add(Money.Name, Money);
-        machines.Add(Assembler);
+        Component SteelPlate = ComponentFactory.GetComponent("Steel Plate");
+        Assembler.Produces.Add(SteelPlate);
+        machines.Add   (Assembler);
     }
 
     public static string LoadJson(string fileName)

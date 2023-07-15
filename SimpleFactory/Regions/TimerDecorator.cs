@@ -11,7 +11,7 @@ namespace SimpleFactory.Regions
     {
         private readonly Region region;
         private System.Timers.Timer Timer { get; set; }
-        public TimerDecorator(Region region) : base()
+        public TimerDecorator(Region region) : base(int X, int Y, ConsoleColor color) : this (X, Y, color)
         {
             this.region = region;
             this.Timer = new System.Timers.Timer(1000);

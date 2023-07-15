@@ -6,7 +6,7 @@ using SimpleFactory.Blueprints;
 namespace SimpleFactory.Components
 {
 
-    public abstract class Component : IComparable<Component>
+    public class Component : IComparable<Component>
     {
         public Component()
         {
@@ -25,6 +25,12 @@ namespace SimpleFactory.Components
         public override string ToString()
         {
             return Name;
+        }
+        public Blueprint CreateBluePrint()
+        {
+            Blueprint = new Blueprint();
+            Blueprint.Produced = this;
+            return Blueprint;
         }
     }
 }

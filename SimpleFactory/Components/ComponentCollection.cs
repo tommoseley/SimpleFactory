@@ -97,26 +97,7 @@ namespace SimpleFactory.Components
             }
             return sb.ToString();
         }
-        public void ToConsole(int consoleLeft, int consoleTop, ConsoleColor consoleColor)
-        {
-            int originalLeft = Console.CursorLeft;
-            int originalTop = Console.CursorTop;
-            ConsoleColor originalColor = Console.ForegroundColor;
-            Console.ForegroundColor = consoleColor;
-
-            int LineNumber = consoleTop;
-            Console.SetCursorPosition(consoleLeft, LineNumber++);
-
-            Console.WriteLine("{0}:", Name);
-            Console.WriteLine("---------------");
-            foreach (string key in Keys())
-            {
-                Console.SetCursorPosition(consoleLeft, LineNumber++);
-                Console.WriteLine(string.Format("{0}: {1}", key, GetCount(key)));
-            }
-            Console.SetCursorPosition(originalLeft, originalTop);
-            Console.ForegroundColor = originalColor;
-        }
+ 
     }
 }
 

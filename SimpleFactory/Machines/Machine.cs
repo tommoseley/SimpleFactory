@@ -11,26 +11,30 @@ namespace SimpleFactory.Machines
     {
         public Machine() 
         {
-            Blueprints = new();
+            Produces = new();
             Hopper = new();
             Name = string.Empty;
         }
         public string Name { get; set; }
-        public Dictionary<string, Blueprint> Blueprints { get; set; }
+        public List<Component> Produces { get; set; }
         public ComponentCollection Hopper { get; set; }  
-        public bool CanMake (string BlueprintName)
+        public bool CanProduce (Component item)
         {
-            if (Blueprints.ContainsKey(BlueprintName))
+            if (Produces == null) throw new Exception("Machine has no production list");
+            Component target = Produces.Find(x => x.Name == item.Name);
+            if (target != null)
             {
-                return Blueprints[BlueprintName].CanMake(Hopper);
+                return target.Blueprint.CanMake(Hopper);
             }
             return false;
         }
-        public bool Make (string BlueprintName)
+        public bool Make (Component item)
         {
-            if (Blueprints.ContainsKey(BlueprintName))
+            if (Produces == null) throw new Exception("Machine has no production list");
+            Component target = Produces.Find(x => x.Name == item.Name);
+            if (target != null)
             {
-                return Blueprints[BlueprintName].Make(Hopper);
+                return target.Blueprint.Make(Hopper);
             }
             return false;
         }
