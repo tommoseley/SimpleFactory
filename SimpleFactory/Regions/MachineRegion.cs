@@ -29,7 +29,8 @@ namespace SimpleFactory.Regions
                 Console.SetCursorPosition(regionState.X, LineNumber++);
                 foreach (Component produced in machine.Produces)
                 {
-                    Console.WriteLine(String.Format("  {0}", produced.Name));
+                    string line = String.Format("  {0} - made: {1}", produced.Name, produced.Blueprint.TimesUsed);
+                    Console.WriteLine(line);
                     Console.SetCursorPosition(regionState.X, LineNumber++);
                     foreach (Component consumed in produced.Blueprint.Requirements.Keys)
                     {

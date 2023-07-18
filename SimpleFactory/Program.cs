@@ -33,16 +33,14 @@ public static class Runner
             foreach (Region region in regions)
                 region.UpdateRegionText();
             Console.WriteLine(
-                "Enter a command: add <count> <item>, make <item>");
-            Console.WriteLine(
-                "                 machines, exit");
+                "Enter a command: add <count> <item>, make <item>, exit");
             Console.Write(">");
             val = Console.ReadLine();
             if (val == null)
                 break;
             if (val == "exit")
                 break;
-            Console.Clear();
+ //           Console.Clear();
             string[] parts = val.Split(' ');
             switch (parts[0])
             {
@@ -58,12 +56,30 @@ public static class Runner
                                 if (i < parts.Length - 1)
                                     stringBuilder.Append(" ");
                             }
-                            Component addedComponent = ComponentFactory.GetComponent(stringBuilder.ToString());
+                            Component addedComponent = ComponentFactory.GetComponent(stringBuilder.ToString().Trim());
+                            if (addedComponent.Blueprint != null)
+                            {
+                                ConsoleColor oldColor1 = Console.ForegroundColor;
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine(string.Format("   Component {0} had a blueprint and must be built", stringBuilder.ToString()));
+                                Console.ForegroundColor = oldColor1;
+                                break;
+                            }   
                             if (addedComponent != null)
+                            {
+                                ConsoleColor oldColor = Console.ForegroundColor;
                                 FactoryInventory.Add(addedComponent, count);
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine("   MADE!");
+                                Console.ForegroundColor = oldColor;
+                            }
                             else
-                                Console.WriteLine(string.Format("Component {0} not found", stringBuilder.ToString()));
-
+                            {
+                                ConsoleColor oldColor = Console.ForegroundColor;
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine(string.Format("   Component {0} not found", stringBuilder.ToString()));
+                                Console.ForegroundColor = oldColor;
+                            }
                         }
                     }
                     break;
@@ -86,6 +102,17 @@ public static class Runner
                                 if (toMake.Blueprint.CanMake(FactoryInventory))
                                 {
                                     toMake.Blueprint.Make(FactoryInventory);
+                                    ConsoleColor oldColor = Console.ForegroundColor;
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.WriteLine("   MADE!");
+                                    Console.ForegroundColor = oldColor;
+                                }
+                                else
+                                {
+                                    ConsoleColor oldColor = Console.ForegroundColor;
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine(string.Format("   Component {0} - not all requirements met", stringBuilder.ToString()));
+                                    Console.ForegroundColor = oldColor;
                                 }
                             }
                         }

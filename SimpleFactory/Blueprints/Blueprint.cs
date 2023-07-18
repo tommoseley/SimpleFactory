@@ -14,6 +14,7 @@ namespace SimpleFactory.Blueprints
         {
             Requirements = new();
             Produced = null;
+            TimesUsed = 0;
         }
         public Blueprint(Component produced)
         {
@@ -21,6 +22,7 @@ namespace SimpleFactory.Blueprints
             Requirements = new();
         }
         public Component Produced { get; set; }
+        public int TimesUsed { get; private set; }
 
         public Dictionary<Component, int> Requirements { get; set; }
         public void AddRequirement(Component component, int count)
@@ -53,6 +55,7 @@ namespace SimpleFactory.Blueprints
                     inventory.Remove(key, Requirements[key]); 
                 }
                 inventory.Add(Produced);
+                TimesUsed++;
                 return true;
             }
             return (false);
