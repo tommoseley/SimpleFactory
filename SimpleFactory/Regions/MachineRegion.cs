@@ -18,7 +18,6 @@ namespace SimpleFactory.Regions
         public override void UpdateText()
         {
             int LineNumber = regionState.Y;
-            Console.SetCursorPosition(regionState.X, LineNumber++);
             Console.WriteLine("Machines:");
             Console.SetCursorPosition(regionState.X, LineNumber++);
             foreach (Machines.Machine machine in machines)

@@ -26,8 +26,8 @@ public static class Runner
         ComponentCollection FactoryInventory = new ComponentCollection() { Name = "Factory Inventory" };
         regions.Add (new InventoryRegion (Console.WindowWidth / 2, 0, ConsoleColor.Yellow, FactoryInventory));
         regions.Add (new MachinesRegion(Console.WindowWidth / 2, 15, ConsoleColor.Cyan, machines));
-       // Component SteelPlate = ComponentFactory.GetComponent("Steel Plate");
-        
+        // Component SteelPlate = ComponentFactory.GetComponent("Steel Plate");
+        Status status = new Status();
         while (true)
         {
             foreach (Region region in regions)
@@ -40,46 +40,42 @@ public static class Runner
                 break;
             if (val == "exit")
                 break;
- //           Console.Clear();
             string[] parts = val.Split(' ');
+            
             switch (parts[0])
             {
                 case "add":
                     if (parts.Length > 2)
                     {
+                        int startIndex = 1;
+
                         if (int.TryParse(parts[1], out int count))
                         {
-                            StringBuilder stringBuilder = new StringBuilder();  
-                            for (int i = 2; i < parts.Length; i++)
-                            {
-                                stringBuilder.Append(parts[i]);
-                                if (i < parts.Length - 1)
-                                    stringBuilder.Append(" ");
-                            }
-                            Component addedComponent = ComponentFactory.GetComponent(stringBuilder.ToString().Trim());
-                            if (addedComponent.Blueprint != null)
-                            {
-                                ConsoleColor oldColor1 = Console.ForegroundColor;
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine(string.Format("   Component {0} had a blueprint and must be built", stringBuilder.ToString()));
-                                Console.ForegroundColor = oldColor1;
-                                break;
-                            }   
-                            if (addedComponent != null)
-                            {
-                                ConsoleColor oldColor = Console.ForegroundColor;
-                                FactoryInventory.Add(addedComponent, count);
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.WriteLine("   MADE!");
-                                Console.ForegroundColor = oldColor;
-                            }
-                            else
-                            {
-                                ConsoleColor oldColor = Console.ForegroundColor;
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine(string.Format("   Component {0} not found", stringBuilder.ToString()));
-                                Console.ForegroundColor = oldColor;
-                            }
+                            startIndex = 2;
+                        }
+                        else
+                            count = 1;
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (int i = startIndex; i < parts.Length; i++)
+                        {
+                            stringBuilder.Append(parts[i]);
+                            if (i < parts.Length - 1)
+                                stringBuilder.Append(" ");
+                        }
+                        Component addedComponent = ComponentFactory.GetComponent(stringBuilder.ToString().Trim());
+                        if (addedComponent.Blueprint != null)
+                        {
+                            StatusMessage
+                            StatusMessage(string.Format("   Component {0} had a blueprint and must be built", stringBuilder.ToString()), false);
+                        }
+                        else if (addedComponent != null)
+                        {
+                            FactoryInventory.Add(addedComponent, count);
+                            StatusMessage(string.Format("   Acquired {0} {1}", count, stringBuilder.ToString()), true);
+                        }
+                        else
+                        {
+                            StatusMessage(string.Format("   Component {0} not found", stringBuilder.ToString()), false);
                         }
                     }
                     break;
@@ -102,17 +98,11 @@ public static class Runner
                                 if (toMake.Blueprint.CanMake(FactoryInventory))
                                 {
                                     toMake.Blueprint.Make(FactoryInventory);
-                                    ConsoleColor oldColor = Console.ForegroundColor;
-                                    Console.ForegroundColor = ConsoleColor.Green;
-                                    Console.WriteLine("   MADE!");
-                                    Console.ForegroundColor = oldColor;
+                                    StatusMessage(string.Format("   Component {0} made", stringBuilder.ToString()), true);
                                 }
                                 else
                                 {
-                                    ConsoleColor oldColor = Console.ForegroundColor;
-                                    Console.ForegroundColor = ConsoleColor.Red;
-                                    Console.WriteLine(string.Format("   Component {0} - not all requirements met", stringBuilder.ToString()));
-                                    Console.ForegroundColor = oldColor;
+                                    StatusMessage(string.Format("   Component {0} cannot be made", stringBuilder.ToString()), false);
                                 }
                             }
                         }
@@ -125,10 +115,12 @@ public static class Runner
         }
     }
 
-
-    public static void CreateComponents ()
+    private static void StatusMessage(string message, bool success)
     {
-
+        ConsoleColor oldColor1 = Console.ForegroundColor;
+        Console.ForegroundColor = success ? ConsoleColor.Green : ConsoleColor.Red;
+        Console.WriteLine(message);
+        Console.ForegroundColor = oldColor1;
     }
     public static void CreateMachines (List<Machine> machines)
     {
