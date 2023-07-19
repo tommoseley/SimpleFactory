@@ -13,21 +13,5 @@ namespace SimpleFactory
             Machines = new();
         }
         public Dictionary<string, Machines.Machine> Machines { get; set; }
- //       public bool CanMake(string MachineName, string BlueprintName)
-   //     {
-            //if (Machines.ContainsKey(MachineName))
-            //{
-            //    return Machines[MachineName].CanMake(BlueprintName);
-            //}
-            //return false;
-     //   }
-    //    public bool Make(string MachineName, string BlueprintName)
-    //    {
-    //    //    if (Machines.ContainsKey(MachineName))
-    //    //    {
-    //    //        return Machines[MachineName].Make(BlueprintName);
-    //    //    }
-    //    //    return false;
-    //    }
     }
 }

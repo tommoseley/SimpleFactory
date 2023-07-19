@@ -11,7 +11,7 @@ namespace SimpleFactory.Regions
     public class MachinesRegion : Region
     {
         private List<Machines.Machine> machines;
-        public MachinesRegion(int X, int Y, ConsoleColor color, List<Machines.Machine> machines) : base(X, Y, color)
+        public MachinesRegion(int X, int Y, int width, int height, ConsoleColor color, List<Machines.Machine> machines) : base(X, Y, width, height, color)
         {
             this.machines = machines;
         }

@@ -11,6 +11,7 @@ using SimpleFactory.Components;
 using System.Runtime.CompilerServices;
 using SimpleFactory.Blueprints;
 using SimpleFactory.Regions;
+using SimpleFactory.Status;
 
 public static class Runner
 {
@@ -22,19 +23,25 @@ public static class Runner
         ComponentFactory.CreateBlueprints();
         CreateMachines(machines);
         List<Region> regions = new List<Region>();
+        StatusContent status = new StatusContent();
 
         ComponentCollection FactoryInventory = new ComponentCollection() { Name = "Factory Inventory" };
-        regions.Add (new InventoryRegion (Console.WindowWidth / 2, 0, ConsoleColor.Yellow, FactoryInventory));
-        regions.Add (new MachinesRegion(Console.WindowWidth / 2, 15, ConsoleColor.Cyan, machines));
-        // Component SteelPlate = ComponentFactory.GetComponent("Steel Plate");
-        Status status = new Status();
+        regions.Add (new InventoryRegion (Console.WindowWidth / 2, 0, Console.WindowWidth / 2, 12, ConsoleColor.Yellow, FactoryInventory));
+        regions.Add (new MachinesRegion(Console.WindowWidth / 2, 15, Console.WindowWidth / 2, Console.WindowHeight - 17, ConsoleColor.Cyan, machines));
+        regions.Add (new StatusRegion (0, 5, (Console.WindowWidth / 2)-1, Console.WindowHeight - 12, ConsoleColor.Green, ConsoleColor.Red, status));
+        status.SetStatus("Factory Started", true);
+        Console.WriteLine(
+            "Enter a command: buy <count> <item>, build <item>, exit");
+        Console.Write(">");
         while (true)
         {
             foreach (Region region in regions)
                 region.UpdateRegionText();
-            Console.WriteLine(
-                "Enter a command: add <count> <item>, make <item>, exit");
-            Console.Write(">");
+            Console.CursorTop = 1;
+            Console.CursorLeft = 2;
+            //clear line and write prompt
+            Console.Write(new string(' ', Console.WindowWidth /2 - 2));
+            Console.CursorLeft = 2;
             val = Console.ReadLine();
             if (val == null)
                 break;
@@ -44,17 +51,19 @@ public static class Runner
             
             switch (parts[0])
             {
-                case "add":
-                    if (parts.Length > 2)
+                case "buy":
+                case "build":
+                    if (parts.Length > 1)
                     {
                         int startIndex = 1;
-
                         if (int.TryParse(parts[1], out int count))
                         {
                             startIndex = 2;
                         }
                         else
+                        {
                             count = 1;
+                        }
                         StringBuilder stringBuilder = new StringBuilder();
                         for (int i = startIndex; i < parts.Length; i++)
                         {
@@ -63,65 +72,53 @@ public static class Runner
                                 stringBuilder.Append(" ");
                         }
                         Component addedComponent = ComponentFactory.GetComponent(stringBuilder.ToString().Trim());
-                        if (addedComponent.Blueprint != null)
+                        if (addedComponent == null)
                         {
-                            StatusMessage
-                            StatusMessage(string.Format("   Component {0} had a blueprint and must be built", stringBuilder.ToString()), false);
+                            status.SetStatus(string.Format("Component {0} not found", stringBuilder.ToString()), false);
+                            break;
                         }
-                        else if (addedComponent != null)
+                        if (parts[0] == "buy")
                         {
-                            FactoryInventory.Add(addedComponent, count);
-                            StatusMessage(string.Format("   Acquired {0} {1}", count, stringBuilder.ToString()), true);
+                            if (addedComponent.Blueprint != null)
+                            {
+                                status.SetStatus(string.Format("Component {0} must be built", stringBuilder.ToString()), false);
+                            }
+                            else
+                            {
+                                FactoryInventory.Add(addedComponent, count);
+                                status.SetStatus(string.Format("Bought {0} {1}", count, stringBuilder.ToString()), true);
+                            }
                         }
                         else
                         {
-                            StatusMessage(string.Format("   Component {0} not found", stringBuilder.ToString()), false);
-                        }
-                    }
-                    break;
-                case "make":
-                    if (parts.Length >1)
-                    {
-                        StringBuilder stringBuilder = new StringBuilder();
-                        for (int i = 1; i < parts.Length; i++)
-                        {
-                            stringBuilder.Append(parts[i]);
-                            if (i < parts.Length - 1)
-                                stringBuilder.Append(" ");
-                        }
-                        Component toMake = ComponentFactory.GetComponent(stringBuilder.ToString());
-                        if (toMake != null)
-                        {
-                            if (machines[0].Produces.Contains(toMake))
+                            if (machines[0].Produces.Contains(addedComponent))
                             {
                                 machines[0].Hopper = FactoryInventory;
-                                if (toMake.Blueprint.CanMake(FactoryInventory))
+                                if (addedComponent.Blueprint.CanMake(FactoryInventory))
                                 {
-                                    toMake.Blueprint.Make(FactoryInventory);
-                                    StatusMessage(string.Format("   Component {0} made", stringBuilder.ToString()), true);
+                                    addedComponent.Blueprint.Make(FactoryInventory);
+                                    status.SetStatus(string.Format("Built {0}", stringBuilder.ToString()), true);
                                 }
                                 else
                                 {
-                                    StatusMessage(string.Format("   Component {0} cannot be made", stringBuilder.ToString()), false);
+                                    status.SetStatus(string.Format("No resources to build {0}", stringBuilder.ToString()), false);
                                 }
                             }
+                            else
+                            {
+                                status.SetStatus(string.Format("Cannot build {0}", stringBuilder.ToString()), false);
+                            }
+
                         }
                     }
                     break;
                 default:
-                    Console.WriteLine(String.Format("You entered: {0}", val));
+                    status.SetStatus(string.Format("Unknown entry: {0}", val), false);
                     break;
             }
         }
     }
 
-    private static void StatusMessage(string message, bool success)
-    {
-        ConsoleColor oldColor1 = Console.ForegroundColor;
-        Console.ForegroundColor = success ? ConsoleColor.Green : ConsoleColor.Red;
-        Console.WriteLine(message);
-        Console.ForegroundColor = oldColor1;
-    }
     public static void CreateMachines (List<Machine> machines)
     {
         Machine Assembler = new Machine() { Name = "Assembler" };

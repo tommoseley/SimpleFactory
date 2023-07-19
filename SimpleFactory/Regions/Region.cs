@@ -8,13 +8,10 @@ namespace SimpleFactory.Regions
 {
     public abstract class Region
     {
-        public int  X { get; set; }
-        public int Y { get; set; }
-        public ConsoleColor Color { get; set; }
         internal ConsoleState regionState { get; set; }
-        public Region(int X, int Y, ConsoleColor color)
+        public Region(int X, int Y, int width, int height, ConsoleColor color)
         {
-            regionState = new ConsoleState() { Color = color, X = X, Y = Y };              
+            regionState = new ConsoleState() { Color = color, X = X, Y = Y, Width=width, Height=height };              
         }
         public void UpdateRegionText()
         {
@@ -27,25 +24,39 @@ namespace SimpleFactory.Regions
 //        public abstract void WriteText(string text); 
         public abstract void UpdateText();
 
+        public void ClearRegion()
+        {
+            for (int i = regionState.Y; i < regionState.Y + regionState.Height; i++)
+            {
+                Console.SetCursorPosition(regionState.X, i);
+                Console.Write(new string(' ', regionState.Width));
+            }
+        }
+
         internal struct ConsoleState
         {
             internal int X;
+
             internal int Y;
+            public int Width { get; set; }
+            public int Height { get; set; }
+
             internal ConsoleColor Color;
             internal void SetState()
             {
                 Console.SetCursorPosition(X, Y);
                 Console.ForegroundColor = Color;
             }
-            public ConsoleState() : this(Console.CursorLeft, Console.CursorTop, Console.ForegroundColor)
+            public ConsoleState() : this(Console.CursorLeft, Console.CursorTop, Console.WindowWidth, Console.WindowHeight, Console.ForegroundColor)
             { }
-            public ConsoleState(int X, int Y, ConsoleColor color)
+            public ConsoleState(int X, int Y, int width, int height, ConsoleColor color)
             {
                 this.X = X;
                 this.Y = Y;
+                this.Width = width;
+                this.Height = height;   
                 this.Color = color;
             }
-
         }
   
         internal ConsoleState SaveConsoleState()

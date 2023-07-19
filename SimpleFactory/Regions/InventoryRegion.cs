@@ -11,12 +11,13 @@ namespace SimpleFactory.Regions
     public class InventoryRegion : Region
     {
         Components.ComponentCollection inventory;
-        public InventoryRegion(int X, int Y, ConsoleColor color, Components.ComponentCollection inventory) : base(X, Y, color)
+        public InventoryRegion(int X, int Y, int width, int height, ConsoleColor color, ComponentCollection inventory) : base(X, Y, width, height, color)
         {
             this.inventory = inventory;
         }
         public override void UpdateText()
         {
+            ClearRegion();
             int LineNumber = regionState.Y;
             Console.SetCursorPosition(regionState.X, LineNumber++);
             Console.Write("Inventory:");
@@ -30,6 +31,14 @@ namespace SimpleFactory.Regions
                     )
                     );
                 Console.SetCursorPosition(regionState.X, LineNumber++);
+            }
+        }
+        private void ClearRegion()
+        {
+            for (int i = regionState.Y; i < regionState.Y + regionState.Height; i++)
+            {
+                Console.SetCursorPosition(regionState.X, i);
+                Console.Write(new string(' ', regionState.Width));
             }
         }
     }
