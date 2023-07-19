@@ -11,7 +11,7 @@ namespace SimpleFactory.Regions
     public class StatusRegion:Region
     {
         public ConsoleColor ErrorColor { get; set; }
-        private List<StatusContent> statuses = new List<StatusContent>();
+        private SortedList<DateTime, StatusContent> statuses = new SortedList<DateTime, StatusContent>();
         public StatusRegion(int X, int Y, int width, int height, ConsoleColor color, ConsoleColor errorColor, StatusContent status) : base(X, Y, width, height, color)
         {
             ErrorColor = errorColor;
@@ -20,16 +20,17 @@ namespace SimpleFactory.Regions
         }
         public void StatusChangeHandler(object sender, StatusContent status)
         {
-            statuses.Add(status.Clone() as StatusContent);
+            StatusContent newContent = status.Clone() as StatusContent;
+            statuses.Add(newContent.Timestamp, newContent);
         }
         public override void UpdateText()
         {
             int LineNumber = regionState.Y;
             Console.SetCursorPosition(regionState.X, LineNumber++);
-            foreach (StatusContent status in statuses)
+            foreach (KeyValuePair<DateTime, StatusContent> pair in statuses.Reverse())
             {
-                Console.ForegroundColor = status.isSuccessful ? regionState.Color : ErrorColor;
-                Console.WriteLine(string.Format("{0} - {1}", status.Timestamp.ToString(), status.Message));
+                Console.ForegroundColor = pair.Value.isSuccessful ? regionState.Color : ErrorColor;
+                Console.WriteLine(string.Format("{0} - {1}", pair.Value.Timestamp.ToString(), pair.Value.Message));
                 Console.SetCursorPosition(regionState.X, LineNumber++);
             }
         }

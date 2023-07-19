@@ -11,11 +11,12 @@ namespace SimpleFactory.Regions
         internal ConsoleState regionState { get; set; }
         public Region(int X, int Y, int width, int height, ConsoleColor color)
         {
-            regionState = new ConsoleState() { Color = color, X = X, Y = Y, Width=width, Height=height };              
+            regionState = new ConsoleState(X, Y, width, height, color);              
         }
         public void UpdateRegionText()
         {
             ConsoleState state = SaveConsoleState();
+            ClearRegion();
             regionState.SetState();
             UpdateText();
             RestoreConsoleState (state);
