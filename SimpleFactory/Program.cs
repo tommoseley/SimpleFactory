@@ -41,6 +41,7 @@ public static class Runner
             Console.CursorLeft = 2;
             //clear line and write prompt
             Console.Write(new string(' ', Console.WindowWidth /2 - 2));
+            Console.CursorTop = 1;
             Console.CursorLeft = 2;
             val = Console.ReadLine();
             if (val == null)
