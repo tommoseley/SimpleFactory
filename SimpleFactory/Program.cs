@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json;
@@ -17,15 +18,15 @@ public static class Runner
 {
     public static void Main(String[] Args)
     {
-        List<Machine> machines = new List<Machine>();
+        string SavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IndustrySim");
+        ComponentCollection FactoryInventory = new ComponentCollection() { Name = "Factory Inventory" };
         string? val;
         ComponentFactory.CreateComponents();
         ComponentFactory.CreateBlueprints();
-        CreateMachines(machines);
+        SortedList<string, Machine> machines = CreateMachines(FactoryInventory);
         List<Region> regions = new List<Region>();
         StatusContent status = new StatusContent();
 
-        ComponentCollection FactoryInventory = new ComponentCollection() { Name = "Factory Inventory" };
         regions.Add (new InventoryRegion (Console.WindowWidth / 2, 0, Console.WindowWidth / 2, 12, ConsoleColor.Yellow, FactoryInventory));
         regions.Add (new MachinesRegion(Console.WindowWidth / 2, 15, Console.WindowWidth / 2, Console.WindowHeight - 17, ConsoleColor.Cyan, machines));
         regions.Add (new StatusRegion (0, 5, (Console.WindowWidth / 2)-1, Console.WindowHeight - 12, ConsoleColor.Green, ConsoleColor.Red, status));
@@ -92,7 +93,7 @@ public static class Runner
                         }
                         else
                         {
-                            Machine machine = machines.Find(m => m.Produces.Contains(addedComponent));
+                            Machine machine = machines.Values.First<Machine>(m => m.Produces.Contains(addedComponent));
                             if (machine != null)
                             {
                                 machine.Hopper = FactoryInventory;
@@ -119,22 +120,25 @@ public static class Runner
                     break;
             }
         }
+        ComponentFactory.SaveComponentsToJSON(Path.Combine(SavePath, "Components.json")) ;
     }
 
-    public static void CreateMachines (List<Machine> machines)
+    public static SortedList<string, Machine> CreateMachines (ComponentCollection inventory)
     {
+        SortedList<string, Machine> machines = new SortedList<string, Machine>();
         Machine machine = new Machine() { Name = "Steel Maker" };
         Component makes = ComponentFactory.GetComponent("Steel Block");
         machine.Produces.Add(makes);
-        machines.Add (machine);
+        machines.Add (machine.Name, machine);
         machine = new Machine() { Name = "Steel Pounder" };
         makes = ComponentFactory.GetComponent("Steel Plate");
         machine.Produces.Add(makes);
-        machines.Add(machine);
+        machines.Add(machine.Name, machine);
         machine = new Machine() { Name = "Steel Sheeter" };
         makes = ComponentFactory.GetComponent("Steel Sheet");
         machine.Produces.Add(makes);
-        machines.Add(machine);
+        machines.Add(machine.Name, machine);
+        return machines;
     }
 
     public static string LoadJson(string fileName)

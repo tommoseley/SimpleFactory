@@ -33,13 +33,13 @@ namespace SimpleFactory.Regions
                 Console.SetCursorPosition(regionState.X, LineNumber++);
             }
         }
-        private void ClearRegion()
-        {
-            for (int i = regionState.Y; i < regionState.Y + regionState.Height; i++)
-            {
-                Console.SetCursorPosition(regionState.X, i);
-                Console.Write(new string(' ', regionState.Width));
-            }
-        }
+        //private void ClearRegion()
+        //{
+        //    for (int i = regionState.Y; i < regionState.Y + regionState.Height; i++)
+        //    {
+        //        Console.SetCursorPosition(regionState.X, i);
+        //        Console.Write(new string(' ', regionState.Width));
+        //    }
+        //}
     }
 }

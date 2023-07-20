@@ -10,15 +10,15 @@ namespace SimpleFactory.Regions
 {
     public class MachinesRegion : Region
     {
-        private List<Machines.Machine> machines;
-        public MachinesRegion(int X, int Y, int width, int height, ConsoleColor color, List<Machines.Machine> machines) : base(X, Y, width, height, color)
+        private SortedList<string, Machines.Machine> machines;
+        public MachinesRegion(int X, int Y, int width, int height, ConsoleColor color, SortedList<string, Machines.Machine> machines) : base(X, Y, width, height, color)
         {
             this.machines = machines;
         }
         public override void UpdateText()
         {
             int LineNumber = regionState.Y;
-            foreach (Machines.Machine machine in machines)
+            foreach (Machines.Machine machine in machines.Values)
             {
                 Console.SetCursorPosition(regionState.X, LineNumber++);
                 Console.WriteLine(String.Format("Machine: {0}", machine.Name));

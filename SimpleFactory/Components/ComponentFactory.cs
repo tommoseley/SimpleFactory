@@ -5,7 +5,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Xml.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 namespace SimpleFactory.Components
 {
     public static class ComponentFactory
@@ -35,6 +37,11 @@ namespace SimpleFactory.Components
             AddComponent("Carbon");
             AddComponent("Steel Sheet");
             AddComponent("Iron Block");
+        }
+        public static void SaveComponentsToJSON (string fileName)
+        {
+//            string json = JsonSerializer.Serialize(components);
+//            System.IO.File.WriteAllText(fileName, json);
         }
         public static void CreateBlueprints()
         {
