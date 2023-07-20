@@ -40,8 +40,8 @@ namespace SimpleFactory.Components
         }
         public static void SaveComponentsToJSON (string fileName)
         {
-//            string json = JsonSerializer.Serialize(components);
-//            System.IO.File.WriteAllText(fileName, json);
+            string json = JsonSerializer.Serialize(components);
+            System.IO.File.WriteAllText(fileName, json);
         }
         public static void CreateBlueprints()
         {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Collections;
 using SimpleFactory.Blueprints;
+using System.Text.Json.Serialization;
+
 namespace SimpleFactory.Components
 {
 
@@ -21,6 +23,7 @@ namespace SimpleFactory.Components
                 return 1;
             return Name == other.Name ? 0 : 1;
         }
+        [JsonIgnore]
         public Blueprint? Blueprint{ get; set; }
         public override string ToString()
         {

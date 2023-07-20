@@ -19,6 +19,7 @@ public static class Runner
     public static void Main(String[] Args)
     {
         string SavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IndustrySim");
+        if (!Directory.Exists(SavePath)) { Directory.CreateDirectory(SavePath); }
         ComponentCollection FactoryInventory = new ComponentCollection() { Name = "Factory Inventory" };
         string? val;
         ComponentFactory.CreateComponents();
