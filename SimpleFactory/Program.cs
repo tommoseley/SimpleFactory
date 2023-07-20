@@ -31,7 +31,7 @@ public static class Runner
         regions.Add (new StatusRegion (0, 5, (Console.WindowWidth / 2)-1, Console.WindowHeight - 12, ConsoleColor.Green, ConsoleColor.Red, status));
         status.SetStatus("Factory Started", true);
         Console.WriteLine(
-            "Enter a command: buy <count> <item>, build <item>, exit");
+            "Enter a command: buy <count> <item>, make <item>, exit");
         Console.Write(">");
         while (true)
         {
@@ -53,7 +53,7 @@ public static class Runner
             switch (parts[0])
             {
                 case "buy":
-                case "build":
+                case "make":
                     if (parts.Length > 1)
                     {
                         int startIndex = 1;
@@ -92,12 +92,13 @@ public static class Runner
                         }
                         else
                         {
-                            if (machines[0].Produces.Contains(addedComponent))
+                            Machine machine = machines.Find(m => m.Produces.Contains(addedComponent));
+                            if (machine != null)
                             {
-                                machines[0].Hopper = FactoryInventory;
-                                if (addedComponent.Blueprint.CanMake(FactoryInventory))
+                                machine.Hopper = FactoryInventory;
+                                if (addedComponent.Blueprint.CanMake(machine.Hopper))
                                 {
-                                    addedComponent.Blueprint.Make(FactoryInventory);
+                                    addedComponent.Blueprint.Make(machine.Hopper);
                                     status.SetStatus(string.Format("Built {0}", stringBuilder.ToString()), true);
                                 }
                                 else
@@ -122,10 +123,18 @@ public static class Runner
 
     public static void CreateMachines (List<Machine> machines)
     {
-        Machine Assembler = new Machine() { Name = "Assembler" };
-        Component SteelPlate = ComponentFactory.GetComponent("Steel Plate");
-        Assembler.Produces.Add(SteelPlate);
-        machines.Add   (Assembler);
+        Machine machine = new Machine() { Name = "Steel Maker" };
+        Component makes = ComponentFactory.GetComponent("Steel Block");
+        machine.Produces.Add(makes);
+        machines.Add (machine);
+        machine = new Machine() { Name = "Steel Pounder" };
+        makes = ComponentFactory.GetComponent("Steel Plate");
+        machine.Produces.Add(makes);
+        machines.Add(machine);
+        machine = new Machine() { Name = "Steel Sheeter" };
+        makes = ComponentFactory.GetComponent("Steel Sheet");
+        machine.Produces.Add(makes);
+        machines.Add(machine);
     }
 
     public static string LoadJson(string fileName)

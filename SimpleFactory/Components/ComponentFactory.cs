@@ -38,12 +38,24 @@ namespace SimpleFactory.Components
         }
         public static void CreateBlueprints()
         {
+            var SteelBlock = GetComponent("Steel Block");
+            if (SteelBlock != null)
+            {
+                Blueprints.Blueprint blueprint = SteelBlock.CreateBluePrint();
+                blueprint.AddRequirement("Iron Block", 2);
+                blueprint.AddRequirement("Carbon", 1);
+            }
             var SteelPlate = GetComponent("Steel Plate");
             if (SteelPlate != null)
             {
                 Blueprints.Blueprint blueprint = SteelPlate.CreateBluePrint();
-                blueprint.AddRequirement("Steel Block", 2);
-                blueprint.AddRequirement("Carbon", 1);
+                blueprint.AddRequirement("Steel Block", 3);
+            }
+            var SteelSheet = GetComponent("Steel Sheet");
+            if (SteelSheet != null)
+            {
+                Blueprints.Blueprint blueprint = SteelSheet.CreateBluePrint();
+                blueprint.AddRequirement("Steel Plate", 1);
             }
         }
 

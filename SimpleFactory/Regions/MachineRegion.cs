@@ -18,25 +18,22 @@ namespace SimpleFactory.Regions
         public override void UpdateText()
         {
             int LineNumber = regionState.Y;
-            Console.WriteLine("Machines:");
-            Console.SetCursorPosition(regionState.X, LineNumber++);
             foreach (Machines.Machine machine in machines)
             {
-                Console.WriteLine(String.Format("  {0}", machine.Name));
                 Console.SetCursorPosition(regionState.X, LineNumber++);
-                Console.Write("  Recipes:");
-                Console.SetCursorPosition(regionState.X, LineNumber++);
+                Console.WriteLine(String.Format("Machine: {0}", machine.Name));
                 foreach (Component produced in machine.Produces)
                 {
-                    string line = String.Format("  {0} - made: {1}", produced.Name, produced.Blueprint.TimesUsed);
+                    Console.SetCursorPosition(regionState.X + 2, LineNumber++);
+                    string line = String.Format("Recipe: {0} - made: {1}", produced.Name, produced.Blueprint.TimesUsed);
                     Console.WriteLine(line);
-                    Console.SetCursorPosition(regionState.X, LineNumber++);
                     foreach (Component consumed in produced.Blueprint.Requirements.Keys)
                     {
-                        Console.WriteLine(String.Format("    {0} - {1}", consumed.Name, produced.Blueprint.Requirements[consumed]));
-                        Console.SetCursorPosition(regionState.X, LineNumber++);
+                        Console.SetCursorPosition(regionState.X + 4, LineNumber++);
+                        Console.WriteLine(String.Format("{0} - {1}", consumed.Name, produced.Blueprint.Requirements[consumed]));
                     }
                 }
+                LineNumber++;
             }
         }
     }
