@@ -43,6 +43,15 @@ namespace SimpleFactory.Components
             string json = JsonSerializer.Serialize(components);
             System.IO.File.WriteAllText(fileName, json);
         }
+        public static void LoadComponentsFromJSON(string fileName)
+        {
+            string json = System.IO.File.ReadAllText(fileName);
+            components = (SortedList<string, Component>)JsonSerializer.Deserialize(json, typeof(SortedList<string, Component>));
+            if (components.Count == 0)
+            {
+                CreateComponents();
+            }
+        }
         public static void CreateBlueprints()
         {
             var SteelBlock = GetComponent("Steel Block");

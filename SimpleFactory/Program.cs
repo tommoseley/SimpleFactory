@@ -20,9 +20,11 @@ public static class Runner
     {
         string SavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IndustrySim");
         if (!Directory.Exists(SavePath)) { Directory.CreateDirectory(SavePath); }
+        
         ComponentCollection FactoryInventory = new ComponentCollection() { Name = "Factory Inventory" };
         string? val;
-        ComponentFactory.CreateComponents();
+       
+        ComponentFactory.LoadComponentsFromJSON(Path.Combine(SavePath, "Components.json"));
         ComponentFactory.CreateBlueprints();
         SortedList<string, Machine> machines = CreateMachines(FactoryInventory);
         List<Region> regions = new List<Region>();
@@ -122,6 +124,7 @@ public static class Runner
             }
         }
         ComponentFactory.SaveComponentsToJSON(Path.Combine(SavePath, "Components.json")) ;
+        SaveInventory(FactoryInventory, Path.Combine(SavePath, "Inventory.json"));
     }
 
     public static SortedList<string, Machine> CreateMachines (ComponentCollection inventory)
@@ -142,13 +145,15 @@ public static class Runner
         return machines;
     }
 
-    public static string LoadJson(string fileName)
+    public static string LoadInventory(string fileName)
     {
+
         return File.ReadAllText(fileName);
     }
 
-    public static void SaveJson(string fileName, string jsonString)
+    public static void SaveInventory(ComponentCollection FactoryInventory, string fileName)
     {
-        File.WriteAllText(fileName, jsonString);
+        string json = JsonSerializer.Serialize(FactoryInventory);
+        System.IO.File.WriteAllText(fileName, json);
     }
 }
