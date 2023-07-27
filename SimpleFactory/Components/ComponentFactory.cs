@@ -24,10 +24,11 @@ namespace SimpleFactory.Components
                 return null;
             }
         }
-        private static void AddComponent(string name)
+        private static void AddComponent(string name, int costBasis)
         {
             Component component = new Component();
             component.Name = name;
+            component.CostBasis = costBasis;
             components.Add(name, component);
         }
         public static void CreateComponents()

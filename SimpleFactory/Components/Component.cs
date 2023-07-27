@@ -14,7 +14,9 @@ namespace SimpleFactory.Components
         {
             Name = string.Empty;
             Blueprint = null;
+            CostBasis = 0;
         }
+        public int CostBasis { get; set; }
         public string Name { get; set; }
 
         public int CompareTo(Component? other)
