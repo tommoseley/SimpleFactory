@@ -33,11 +33,11 @@ namespace SimpleFactory.Components
         }
         public static void CreateComponents()
         {
-            AddComponent("Steel Plate");
-            AddComponent("Steel Block");
-            AddComponent("Carbon");
-            AddComponent("Steel Sheet");
-            AddComponent("Iron Block");
+            AddComponent("Carbon", 25);
+            AddComponent("Iron Block", 50);
+            AddComponent("Steel Block", 150);
+            AddComponent("Steel Plate", 500);
+            AddComponent("Steel Sheet", 600);
         }
         public static void SaveComponentsToJSON (string fileName)
         {
