@@ -1,5 +1,4 @@
-﻿using SimpleFactory.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -10,8 +9,8 @@ namespace SimpleFactory.Regions
 {
     public class InventoryRegion : Region
     {
-        Components.ComponentCollection inventory;
-        public InventoryRegion(int X, int Y, int width, int height, ConsoleColor color, ComponentCollection inventory) : base(X, Y, width, height, color)
+        ThingCollection inventory;
+        public InventoryRegion(int X, int Y, int width, int height, ConsoleColor color, ThingCollection inventory) : base(X, Y, width, height, color)
         {
             this.inventory = inventory;
         }
@@ -22,7 +21,7 @@ namespace SimpleFactory.Regions
             Console.SetCursorPosition(regionState.X, LineNumber++);
             Console.Write("Inventory:");
             Console.SetCursorPosition(regionState.X, LineNumber++);
-            foreach (Component key in inventory.Keys())
+            foreach (Thing key in inventory.Keys())
             {
                 Console.WriteLine(
                     string.Format("{0} - {1}",

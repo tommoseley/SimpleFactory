@@ -16,7 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Blueprints\" />
+    <Folder Include="Components\" />
     <Folder Include="Data\" />
+    <Folder Include="Machines\" />
   </ItemGroup>
 
 </Project>

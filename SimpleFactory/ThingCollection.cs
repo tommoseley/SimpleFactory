@@ -1,27 +1,26 @@
-﻿using SimpleFactory.Machines;
-using System;
+﻿using System;
 using System.Collections;
 using System.Dynamic;
 using System.Text;
 
-namespace SimpleFactory.Components
+namespace SimpleFactory
 {
-    public class ComponentCollection
+    public class ThingCollection
     {
-        public ComponentCollection()
+        public ThingCollection()
         {
             Name = string.Empty;
         }
         public string Name { get; set; }
-        private readonly Dictionary<Component, int> Container = new();
+        private readonly Dictionary<Thing, int> Container = new();
 
         public int Count => Container.Count;
 
-        public void Add(Component key)
+        public void Add(Thing key)
         {
             Add(key, 1);
         }
-        public void Add(Component key, int count)
+        public void Add(Thing key, int count)
         {
             if (Contains(key))
                 Container[key] += count;
@@ -35,17 +34,17 @@ namespace SimpleFactory.Components
         {
             Container.Clear();
         }
-        public IEnumerable<Component> Keys()
+        public IEnumerable<Thing> Keys()
         {
             return Container.Keys;
         }
-        public int GetCount(Component key)
+        public int GetCount(Thing key)
         {
             if (Contains(key))
                 return Container[key];
             return 0;
         }
-        public bool Has(Component key, int count)
+        public bool Has(Thing key, int count)
         {
             if (Contains(key))
             {
@@ -53,23 +52,23 @@ namespace SimpleFactory.Components
             }
             return Contains(key);
         }
-        public bool Contains(Component key)
+        public bool Contains(Thing key)
         {
             return Container.ContainsKey(key);
         }
 
-        public int ItemCount(Component key)
+        public int ItemCount(Thing key)
         {
             if (Contains(key) == false)
                 return 0;
             return Container[key];
         }
 
-        public bool Remove(Component key)
+        public bool Remove(Thing key)
         {
             return Remove(key, 1);
         }
-        public bool Remove(Component key, int count)
+        public bool Remove(Thing key, int count)
         {
             if (Contains(key))
             {
@@ -80,7 +79,7 @@ namespace SimpleFactory.Components
             }
             return false;
         }
-        public bool RemoveAll(Component key)
+        public bool RemoveAll(Thing key)
         {
             if (Contains(key) == false)
                 return false;
@@ -90,14 +89,14 @@ namespace SimpleFactory.Components
         {
             StringBuilder sb = new();
             sb.AppendLine("Inventory:");
-            foreach (Component key in Container.Keys)
+            foreach (Thing key in Container.Keys)
             {
                 sb.AppendLine($"{key}({Container[key]}) ");
-      
+
             }
             return sb.ToString();
         }
- 
+
     }
 }
 

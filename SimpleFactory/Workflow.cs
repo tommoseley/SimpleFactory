@@ -12,6 +12,6 @@ namespace SimpleFactory
         {
             Machines = new();
         }
-        public Dictionary<string, Machines.Machine> Machines { get; set; }
+        public Dictionary<string, Machine> Machines { get; set; }
     }
 }
