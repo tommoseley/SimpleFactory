@@ -20,6 +20,7 @@
     <Folder Include="Components\" />
     <Folder Include="Data\" />
     <Folder Include="Machines\" />
+    <Folder Include="Status\" />
   </ItemGroup>
 
 </Project>

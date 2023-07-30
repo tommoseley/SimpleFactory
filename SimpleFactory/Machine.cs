@@ -25,7 +25,7 @@ namespace SimpleFactory
         public bool CanProduce(string name)
         {
             if (Patterns.Count == 0) throw new Exception("Machine has no production list");
-            if (Patterns.Count(x => x.Value.Name == name) > 0)
+            if (Patterns.Count(x => x.Value.Name.ToLower() == name.ToLower()) > 0)
             {
                 return Patterns[name].CanMake(Hopper);
             }
@@ -34,7 +34,7 @@ namespace SimpleFactory
         public bool Make(string name)
         {
             if (Patterns.Count == 0) throw new Exception("Machine has no production list");
-            if (Patterns.Count(x => x.Value.Name == name) > 0)
+            if (Patterns.Count(x => x.Value.Name.ToLower() == name.ToLower()) > 0)
             {
                 return Patterns[name].Make(Hopper);
             }

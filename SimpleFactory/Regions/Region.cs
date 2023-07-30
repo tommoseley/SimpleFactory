@@ -19,7 +19,7 @@ namespace SimpleFactory.Regions
             ClearRegion();
             regionState.SetState();
             UpdateText();
-            RestoreConsoleState (state);
+          //  RestoreConsoleState (state);
         }
 
 //        public abstract void WriteText(string text); 

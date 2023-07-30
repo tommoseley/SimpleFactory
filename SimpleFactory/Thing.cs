@@ -43,6 +43,7 @@ namespace SimpleFactory
         {
             return things.Values;
         }
+
         private static void Add(string name, int costBasis)
         {
             Thing component = new Thing();

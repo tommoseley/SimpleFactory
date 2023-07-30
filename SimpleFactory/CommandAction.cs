@@ -3,14 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static SimpleFactory.CommandAction;
 
 namespace SimpleFactory
 {
-    public struct CommandAction
+    public delegate void CommandEventHandler(object sender, CommandEventArgs e);
+    public class CommandEventArgs : EventArgs
     {
         public string Command;
         public int Count;
         public string Item;
+        public string RawText;
+        public CommandEventArgs(string command, int count, string item, string rawText)
+        {
+            Command = command;
+            Count = count;
+            Item = item;
+            RawText = rawText;
+        }
+    }
+    public class CommandAction
+    {
+        public event CommandEventHandler OnCommand;
+        public string Command;
+        private int Count;
+        private string Item;
         public void Parse(string command)
         {
             string[] parts = command.Split(' ');
@@ -42,6 +59,11 @@ namespace SimpleFactory
                 Count = 1;
                 Item = "";
             }
+            if (OnCommand != null)
+            {
+                OnCommand(this, new CommandEventArgs(Command, Count, Item, command));
+            }
         }
+
     }
 }
