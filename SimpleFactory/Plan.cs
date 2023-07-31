@@ -7,36 +7,36 @@ using System.Threading.Tasks;
 namespace SimpleFactory
 {
     [Serializable]
-    public class Blueprint
+    public class Plan
     {
-        public Blueprint()
+        public Plan()
         {
             Name = string.Empty;
-            Produced = string.Empty;
-            Requirements = new();
+            Produces = string.Empty;
+            Requires = new();
         }
-        public Blueprint(string produced, string name) : this()
+        public Plan(string produces, string name) : this()
         {
             try
             {
                 Name = name;
-                Produced = produced;
+                Produces = produces;
             }
             catch (Exception)
             {
-                throw new Exception($"Could not find {produced} in the list of things");
+                throw new Exception($"Could not find {produces} in the list of things");
             }
         }
         public string Name { get; set; }
-        public string Produced { get; set; }
-        public Dictionary<string, int> Requirements { get; set; }
+        public string Produces { get; set; }
+        public Dictionary<string, int> Requires { get; set; }
         public void AddRequirement(string componentName, int count)
         {
-            Requirements.Add(componentName, count);
+            Requires.Add(componentName, count);
         }
         internal bool CanMake(Inventory inventory)
         {
-            foreach (string key in Requirements.Keys)
+            foreach (string key in Requires.Keys)
             {
                 if (!inventory.Items.ContainsKey(key)) return false;
 
@@ -47,11 +47,11 @@ namespace SimpleFactory
         {
             if (CanMake(inventory))
             {
-                foreach (string key in Requirements.Keys)
+                foreach (string key in Requires.Keys)
                 {
-                    inventory.Remove(key, Requirements[key]);
+                    inventory.Remove(key, Requires[key]);
                 }
-                inventory.Add(Produced, 1);
+                inventory.Add(Produces, 1);
                 return true;
             }
             return false;
@@ -66,14 +66,14 @@ namespace SimpleFactory
             public string Name { get; set; }
             public int Count { get; set; }
         }
-        private static SortedList<string, Blueprint> contents = new SortedList<string, Blueprint>(StringComparer.OrdinalIgnoreCase);
+        private static SortedList<string, Plan> contents = new SortedList<string, Plan>(StringComparer.OrdinalIgnoreCase);
         public static void Create()
         {
             Add("Steel Block", "Steel Block", new Requirement("Iron", 5), new Requirement("Carbon", 1));
             Add("Steel Plate", "Steel Plate", new Requirement("Steel Block", 3));
             Add("Steel Sheet", "Steel Sheet", new Requirement("Steel Plate", 1));
         }
-        public static Blueprint Get(string name)
+        public static Plan Get(string name)
         {
             if (contents.ContainsKey(name))
                 return contents[name];
@@ -84,7 +84,7 @@ namespace SimpleFactory
         }
         public static void Add(string name, string produced, params Requirement[] requirements)
         {
-            Blueprint blueprint = new(produced, name);
+            Plan blueprint = new(produced, name);
             foreach (Requirement requirement in requirements)
             {
                 blueprint.AddRequirement(requirement.Name, requirement.Count);

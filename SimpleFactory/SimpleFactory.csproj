@@ -8,17 +8,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\**" />
-    <EmbeddedResource Remove="Data\**" />
-    <None Remove="Data\**" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Compile Remove="Data\Plan.cs" />
+    <Compile Remove="Data\PlanRequirement.cs" />
     <Compile Remove="Regions\TimerDecorator.cs" />
+    <Compile Remove="Thing.cs" />
+    <Compile Remove="ThingCollection.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Collections" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>

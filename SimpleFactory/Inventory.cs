@@ -18,14 +18,14 @@ namespace SimpleFactory
         public void Add(string name, int priceBasis, int quantity)
         {
             if (!Items.ContainsKey(name))
-                Items.Add(name, new InventoryDetail () { Quantity = quantity, CostBasic = priceBasis });
+                Items.Add(name, new InventoryDetail () { Quantity = quantity, CostBasis = priceBasis });
         }
         public void Add(string name, int quantity)
         {
             if (Items.ContainsKey(name))
             {
                 InventoryDetail item = new InventoryDetail()
-                { CostBasic = Items[name].CostBasic, Quantity = Items[name].Quantity + quantity };
+                { CostBasis = Items[name].CostBasis, Quantity = Items[name].Quantity + quantity };
                 Items[name] = item;
             }
         }
@@ -34,7 +34,7 @@ namespace SimpleFactory
             if (Items.ContainsKey(name))
             {
                 InventoryDetail item = new InventoryDetail()
-                { CostBasic = Items[name].CostBasic, Quantity = Items[name].Quantity - quantity };
+                { CostBasis = Items[name].CostBasis, Quantity = Items[name].Quantity - quantity };
                 Items[name] = item;
                 if (Items[name].Quantity <= 0)
                     throw new Exception($"Inventory of {name} <0");
@@ -51,7 +51,7 @@ namespace SimpleFactory
         public struct InventoryDetail
         {
             public int Quantity {get; set; }
-            public int CostBasic { get; set; }
+            public int CostBasis { get; set; }
         }
     }
 }

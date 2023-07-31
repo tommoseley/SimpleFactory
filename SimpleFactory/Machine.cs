@@ -11,32 +11,32 @@ namespace SimpleFactory
     {
         public Machine()
         {
-            Patterns = new SortedList<string, Blueprint>(StringComparer.OrdinalIgnoreCase);
+            Plans = new SortedList<string, Plan>(StringComparer.OrdinalIgnoreCase);
             Hopper = new();
             Name = string.Empty;
         }
         public string Name { get; set; }
-        public SortedList<string, Blueprint> Patterns { get; set; }
+        public SortedList<string, Plan> Plans { get; set; }
         public Inventory Hopper { get; set; }
         public bool HasPattern (string name)
         {
-            return Patterns.Count(x => x.Value.Produced == name) > 0;
+            return Plans.Count(x => x.Value.Produces == name) > 0;
         }
         public bool CanProduce(string name)
         {
-            if (Patterns.Count == 0) throw new Exception($"{Name} has no production list");
-            if (Patterns.Count(x => x.Value.Name.ToLower() == name.ToLower()) > 0)
+            if (Plans.Count == 0) throw new Exception($"{Name} has no production list");
+            if (Plans.Count(x => x.Value.Name.ToLower() == name.ToLower()) > 0)
             {
-                return Patterns[name].CanMake(Hopper);
+                return Plans[name].CanMake(Hopper);
             }
             return false;
         }
         public bool Make(string name)
         {
-            if (Patterns.Count == 0) throw new Exception($"{Name} has no production list");
-            if (Patterns.Count(x => x.Value.Name.ToLower() == name.ToLower()) > 0)
+            if (Plans.Count == 0) throw new Exception($"{Name} has no production list");
+            if (Plans.Count(x => x.Value.Name.ToLower() == name.ToLower()) > 0)
             {
-                return Patterns[name].Make(Hopper);
+                return Plans[name].Make(Hopper);
             }
             return false;
         }
@@ -45,15 +45,15 @@ namespace SimpleFactory
             return Name;
         }
         private static SortedList<string, Machine> machines = new SortedList<string, Machine>(StringComparer.InvariantCultureIgnoreCase);
-        public static void AddPattern(string machineName, string patternName)
+        public static void AddPlan(string machineName, string planName)
         {
             try
             {
-                Blueprint pattern = Blueprint.Get(patternName);
+                Plan plan = Plan.Get(planName);
                 Machine machine = Get(machineName);
                 if (machine != null)
                 {
-                    machine.Patterns.Add(patternName, pattern);
+                    machine.Plans.Add(planName, plan);
                 }
             }
             catch (MachineNotFoundException e)
@@ -90,20 +90,22 @@ namespace SimpleFactory
             Add("Steel Press");
             Add("Steel Sheeter");
         }
-        public static void AssignBlueprints()
+        public static void AssignPlans()
         {
-            AddPattern("Foundarsssy", "Iron Block");
-            AddPattern("Foundary", "Steel Block");
-            AddPattern("Steel Press", "Steel Plate");
-            AddPattern("Steel Sheeter", "Steel Sheet");
+            AddPlan("Foundary", "Steel Block");
+            AddPlan("Steel Press", "Steel Plate");
+            AddPlan("Steel Sheeter", "Steel Sheet");
         }
-        public static Machine WhatCanRunRecipe(string name)
+        public static Machine WhatCanMakePlan(string planName)
         {
             if (machines == null || machines.Count == 0) throw new Exception("No machines defined");
             foreach (Machine machine in machines.Values)
             {
-                if (machine.Patterns.Count(x => string.Compare(x.Value.Produced, name, true) != 0))
-                    return machine;
+                foreach (Plan plan in machine.Plans.Values)
+                {
+                    if (string.Compare(plan.Produces, planName, true) == 0)
+                        return machine;
+                }
             }
             return null;
         }

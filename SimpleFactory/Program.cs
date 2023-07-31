@@ -5,8 +5,6 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json;
 using System.IO;
-//using SimpleFactory.Components;
-//using SimpleFactory.Blueprints;
 using SimpleFactory.Regions;
 using SimpleFactory;
 using static System.Collections.Specialized.BitVector32;
@@ -16,7 +14,6 @@ public static class Runner
     static Inventory FactoryInventory;
     public static void Main(String[] Args)
     {
-
         string SavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IndustrySim");
         if (!Directory.Exists(SavePath)) { Directory.CreateDirectory(SavePath); }
         CommandAction action = new CommandAction();
@@ -25,16 +22,13 @@ public static class Runner
         FactoryInventory = new Inventory() { Name = "Factory Inventory" };
         FactoryInventory.Create();
         string? val;
-       
-//        Component.LoadFromJSON(Path.Combine(SavePath, "Components.json"));
         Region.Regions.Add(new StatusRegion(0, 7, (Console.WindowWidth / 2) - 1, Console.WindowHeight - 12, ConsoleColor.Green, ConsoleColor.Red));
-        Thing.Create();
         Status.Current.Set("Factory Started", true);
         Region.Regions.Add (new InventoryRegion (Console.WindowWidth / 2, 0, Console.WindowWidth / 2, 12, ConsoleColor.Yellow, FactoryInventory));
         Status.Current.Set("Inventory Started", true);
-        Blueprint.Create();
+        Plan.Create();
         Machine.Create();
-        Machine.AssignBlueprints();
+        Machine.AssignPlans();
         Region.Regions.Add (new MachinesRegion(Console.WindowWidth / 2, 15, Console.WindowWidth / 2, Console.WindowHeight - 17, ConsoleColor.Cyan));
         Status.Current.Set("Machines Started", true);
         Region.Regions.Add (new ActionRegion(0, 0, (Console.WindowWidth / 2) - 1, 7, ConsoleColor.White));
@@ -66,18 +60,18 @@ public static class Runner
                     Status.Current.Set($"Nothing to build: {action.RawText}", false);
                     return;
                 }
-                if (!Thing.Exists(action.Item))
+                if (!FactoryInventory.Items.ContainsKey(action.Item))
                 {
-                    Status.Current.Set($"Thing {action.Item} not found", false);
+                    Status.Current.Set($"Item {action.Item} not found", false);
                     break;
                 }
                 if (action.Command == "buy")
                 {
-                    Console.WriteLine($"Buy {action.Count} {action.Item} for {Thing.CostBasis(action.Item)} each?");
+                    Console.WriteLine($"Buy {action.Count} {action.Item} for {FactoryInventory.Items[action.Item].CostBasis} each?");
                     Console.Write("(y/n) >");
                     if (Console.ReadLine() == "y")
                     {
-                        int totalSpent = action.Count * Thing.CostBasis(action.Item);
+                        int totalSpent = action.Count * FactoryInventory.Items[action.Item].CostBasis;
                         FactoryInventory.Add(action.Item, action.Count);
                         Status.Current.Set($"Bought {action.Count} {action.Item} for {totalSpent}", true);
                     }
@@ -89,7 +83,7 @@ public static class Runner
                     Status.Current.Set($"Nothing to build: {action.RawText}", false);
                     return;
                 }
-                Machine machine = Machine.WhatCanRunRecipe(action.Item);
+                Machine machine = Machine.WhatCanMakePlan(action.Item);
                 if (machine != null)
                 {
                     machine.Hopper = FactoryInventory;

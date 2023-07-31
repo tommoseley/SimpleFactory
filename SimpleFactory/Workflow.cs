@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace SimpleFactory
 {
-    internal class Workflow
+    public class Workflow
     {
         public Workflow()
         {
-            Machines = new();
+            Blueprint = new();
         }
-        public Dictionary<string, Machine> Machines { get; set; }
+        public Dictionary<string, Plan> Blueprint { get; set; }
     }
 }
