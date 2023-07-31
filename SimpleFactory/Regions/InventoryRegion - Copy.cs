@@ -7,25 +7,21 @@ using System.Threading.Tasks;
 
 namespace SimpleFactory.Regions
 {
-    public class InventoryRegion : Region
+    public class HeaderRegion : Region
     {
         Inventory inventory;
-        public InventoryRegion(int X, int Y, int width, int height, ConsoleColor color, Inventory inventory) : base(X, Y, width, height, color)
+        public HeaderRegion(int X, int Y, int width, int height, ConsoleColor color) : base(X, Y, width, height, color)
         {
-            this.inventory = inventory;
         }
         public override void UpdateText()
         {
             ClearRegion();
             int LineNumber = regionState.Y;
             Console.SetCursorPosition(regionState.X, LineNumber++);
-            Console.Write("Inventory:");
+            Console.WriteLine("Stuff you can do:");
             Console.SetCursorPosition(regionState.X, LineNumber++);
-            foreach (string key in inventory.Items.Keys)
-            {
-                Console.WriteLine($"{key} - {inventory.Items[key].Quantity}");
-                Console.SetCursorPosition(regionState.X, LineNumber++);
-            }
+            Console.Write("Inv > Inventory Stuff               Mac > Machine Stuff");
+            Console.SetCursorPosition(regionState.X, LineNumber++);
         }
     }
 }

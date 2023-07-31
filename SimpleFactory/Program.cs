@@ -7,7 +7,6 @@ using System.Text.Json;
 using System.IO;
 using SimpleFactory.Regions;
 using SimpleFactory;
-using static System.Collections.Specialized.BitVector32;
 
 public static class Runner
 {
@@ -22,9 +21,10 @@ public static class Runner
         FactoryInventory = new Inventory() { Name = "Factory Inventory" };
         FactoryInventory.Create();
         string? val;
+        Region.Regions.Add(new HeaderRegion(Console.WindowWidth / 2, 0, (Console.WindowWidth / 2) - 1, 5, ConsoleColor.White));
         Region.Regions.Add(new StatusRegion(0, 7, (Console.WindowWidth / 2) - 1, Console.WindowHeight - 12, ConsoleColor.Green, ConsoleColor.Red));
         Status.Current.Set("Factory Started", true);
-        Region.Regions.Add (new InventoryRegion (Console.WindowWidth / 2, 0, Console.WindowWidth / 2, 12, ConsoleColor.Yellow, FactoryInventory));
+        Region.Regions.Add (new InventoryRegion (Console.WindowWidth / 2, 6, Console.WindowWidth / 2, 12, ConsoleColor.Yellow, FactoryInventory));
         Status.Current.Set("Inventory Started", true);
         Plan.Create();
         Machine.Create();
