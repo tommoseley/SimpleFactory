@@ -12,15 +12,11 @@ namespace SimpleFactory
             Name = string.Empty;
         }
         public string Name { get; set; }
-        private readonly Dictionary<Thing, int> Container = new();
+        private readonly Dictionary<string, int> Container = new();
 
         public int Count => Container.Count;
 
-        public void Add(Thing key)
-        {
-            Add(key, 1);
-        }
-        public void Add(Thing key, int count)
+        public void Add(string key, int count = 1)
         {
             if (Contains(key))
                 Container[key] += count;
@@ -34,17 +30,17 @@ namespace SimpleFactory
         {
             Container.Clear();
         }
-        public IEnumerable<Thing> Keys()
+        public IEnumerable<string> Keys()
         {
             return Container.Keys;
         }
-        public int GetCount(Thing key)
+        public int GetCount(string key)
         {
             if (Contains(key))
                 return Container[key];
             return 0;
         }
-        public bool Has(Thing key, int count)
+        public bool Has(string key, int count)
         {
             if (Contains(key))
             {
@@ -52,23 +48,23 @@ namespace SimpleFactory
             }
             return Contains(key);
         }
-        public bool Contains(Thing key)
+        public bool Contains(string key)
         {
             return Container.ContainsKey(key);
         }
 
-        public int ItemCount(Thing key)
+        public int ItemCount(string key)
         {
             if (Contains(key) == false)
                 return 0;
             return Container[key];
         }
 
-        public bool Remove(Thing key)
+        public bool Remove(string key)
         {
             return Remove(key, 1);
         }
-        public bool Remove(Thing key, int count)
+        public bool Remove(string key, int count)
         {
             if (Contains(key))
             {
@@ -79,7 +75,7 @@ namespace SimpleFactory
             }
             return false;
         }
-        public bool RemoveAll(Thing key)
+        public bool RemoveAll(string key)
         {
             if (Contains(key) == false)
                 return false;
@@ -89,7 +85,7 @@ namespace SimpleFactory
         {
             StringBuilder sb = new();
             sb.AppendLine("Inventory:");
-            foreach (Thing key in Container.Keys)
+            foreach (string key in Container.Keys)
             {
                 sb.AppendLine($"{key}({Container[key]}) ");
 

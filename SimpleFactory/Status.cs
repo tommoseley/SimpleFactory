@@ -22,15 +22,17 @@ namespace SimpleFactory
         {
             get
             {
-                if (instance == null)
-                    instance = new Status();
                 return instance;
             }
         }
                 
         private static Status instance;
+        static Status ()
+        {
+            instance = new Status();
+        }
 
-        public event OnStatusChangedHandler OnStatusChanged;
+        public event OnStatusChangedHandler? OnStatusChanged;
         public string Message { get; set; }
         public DateTime Timestamp { get; set; }
         public bool isSuccessful { get; set; }

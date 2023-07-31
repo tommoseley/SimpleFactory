@@ -11,48 +11,47 @@ namespace SimpleFactory
     {
         public Blueprint()
         {
-            Requirements = new();
-            Produced = null;
             Name = string.Empty;
+            Produced = string.Empty;
+            Requirements = new();
         }
         public Blueprint(string produced, string name) : this()
         {
-            Produced = Thing.Get(produced);
-            Name = name;
-        }
-        public string Name { get; set; }
-        public Thing Produced { get; set; }
-        public Dictionary<Thing, int> Requirements { get; set; }
-        public void AddRequirement(Thing component, int count)
-        {
-            Requirements.Add(component, count);
-        }
-        public void AddRequirement(string componentName, int count)
-        {
-            Thing component = Thing.Get(componentName);
-            if (component != null)
+            try
             {
-                Requirements.Add(component, count);
+                Name = name;
+                Produced = produced;
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Could not find {produced} in the list of things");
             }
         }
-        internal bool CanMake(ThingCollection inventory)
+        public string Name { get; set; }
+        public string Produced { get; set; }
+        public Dictionary<string, int> Requirements { get; set; }
+        public void AddRequirement(string componentName, int count)
         {
-            foreach (Thing key in Requirements.Keys)
+            Requirements.Add(componentName, count);
+        }
+        internal bool CanMake(Inventory inventory)
+        {
+            foreach (string key in Requirements.Keys)
             {
-                if (!inventory.Has(key, Requirements[key])) return false;
+                if (!inventory.Items.ContainsKey(key)) return false;
 
             }
             return true;
         }
-        internal bool Make(ThingCollection inventory)
+        internal bool Make(Inventory inventory)
         {
             if (CanMake(inventory))
             {
-                foreach (Thing key in Requirements.Keys)
+                foreach (string key in Requirements.Keys)
                 {
                     inventory.Remove(key, Requirements[key]);
                 }
-                inventory.Add(Produced);
+                inventory.Add(Produced, 1);
                 return true;
             }
             return false;
@@ -61,10 +60,10 @@ namespace SimpleFactory
         {
             public Requirement(string componentName, int count)
             {
-                Component = Thing.Get(componentName);
+                Name = componentName;
                 Count = count;
             }
-            public Thing Component { get; set; }
+            public string Name { get; set; }
             public int Count { get; set; }
         }
         private static SortedList<string, Blueprint> contents = new SortedList<string, Blueprint>(StringComparer.OrdinalIgnoreCase);
@@ -80,7 +79,7 @@ namespace SimpleFactory
                 return contents[name];
             else
             {
-                return null;
+                throw new BlueprintNotFoundException($"Blueprint {name} not found");
             }
         }
         public static void Add(string name, string produced, params Requirement[] requirements)
@@ -88,10 +87,19 @@ namespace SimpleFactory
             Blueprint blueprint = new(produced, name);
             foreach (Requirement requirement in requirements)
             {
-                blueprint.AddRequirement(requirement.Component, requirement.Count);
+                blueprint.AddRequirement(requirement.Name, requirement.Count);
             }
             contents.Add(name, blueprint);
         }
-
+        override public string ToString()
+        {
+            return Name;
+        }
+    }
+    public class BlueprintNotFoundException : Exception
+    {
+        public BlueprintNotFoundException(string message) : base(message)
+        {
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,10 +25,14 @@ namespace SimpleFactory
     }
     public class CommandAction
     {
-        public event CommandEventHandler OnCommand;
-        public string Command;
-        private int Count;
-        private string Item;
+        public event CommandEventHandler? OnCommand;
+        public string Command = string.Empty;
+        private int Count = 0;
+        private string Item = string.Empty;
+        public CommandAction()
+        {
+
+        }
         public void Parse(string command)
         {
             string[] parts = command.Split(' ');

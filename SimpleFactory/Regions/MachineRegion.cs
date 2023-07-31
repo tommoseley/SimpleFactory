@@ -18,12 +18,12 @@ namespace SimpleFactory.Regions
             foreach (Machine machine in Machine.Get())
             {
                 Console.SetCursorPosition(regionState.X, LineNumber++);
-                Console.WriteLine(String.Format("Machine: {0}", machine.Name));
+                Console.WriteLine($"Machine: {machine.Name}");
                 foreach (Blueprint blueprint in machine.Patterns.Values)
                 {
                     Console.SetCursorPosition(regionState.X + 2, LineNumber++);
                     string line = String.Format("Recipe: {0}", blueprint.Name);
-                    Console.WriteLine(line);
+                    Console.WriteLine($"Machine: {blueprint.Name}");
                 //    foreach (Component consumed in produced.Blueprint.Requirements.Keys)
                 //    {
                 //        Console.SetCursorPosition(regionState.X + 4, LineNumber++);

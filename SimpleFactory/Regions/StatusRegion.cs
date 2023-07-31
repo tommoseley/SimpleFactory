@@ -28,7 +28,7 @@ namespace SimpleFactory.Regions
             foreach (KeyValuePair<DateTime, StatusRecord> pair in statuses.Reverse())
             {
                 Console.ForegroundColor = pair.Value.isSuccessful ? regionState.Color : ErrorColor;
-                Console.WriteLine(string.Format("{0} - {1}", pair.Value.Timestamp.ToString(), pair.Value.Message));
+                Console.WriteLine(string.Format("{0:} - {1}", pair.Value.Timestamp.ToString(), pair.Value.Message));
                 Console.SetCursorPosition(regionState.X, LineNumber++);
             }
         }

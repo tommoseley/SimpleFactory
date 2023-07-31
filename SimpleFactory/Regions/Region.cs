@@ -59,7 +59,16 @@ namespace SimpleFactory.Regions
                 this.Color = color;
             }
         }
-  
+        public static List<Region> Regions { get; set; }
+        static Region()
+        {
+            Regions = new List<Region>();
+        }
+        public static void UpdateAllRegions()
+        {
+            foreach (Region region in Regions)
+                region.UpdateRegionText();
+        }
         internal ConsoleState SaveConsoleState()
         {
             ConsoleState state = new ConsoleState();

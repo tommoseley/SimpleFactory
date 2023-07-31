@@ -9,8 +9,8 @@ namespace SimpleFactory.Regions
 {
     public class InventoryRegion : Region
     {
-        ThingCollection inventory;
-        public InventoryRegion(int X, int Y, int width, int height, ConsoleColor color, ThingCollection inventory) : base(X, Y, width, height, color)
+        Inventory inventory;
+        public InventoryRegion(int X, int Y, int width, int height, ConsoleColor color, Inventory inventory) : base(X, Y, width, height, color)
         {
             this.inventory = inventory;
         }
@@ -21,14 +21,9 @@ namespace SimpleFactory.Regions
             Console.SetCursorPosition(regionState.X, LineNumber++);
             Console.Write("Inventory:");
             Console.SetCursorPosition(regionState.X, LineNumber++);
-            foreach (Thing key in inventory.Keys())
+            foreach (string key in inventory.Items.Keys)
             {
-                Console.WriteLine(
-                    string.Format("{0} - {1}",
-                    key.ToString(),
-                    inventory.ItemCount(key)
-                    )
-                    );
+                Console.WriteLine($"{key} - {inventory.Items[key].Quantity}");
                 Console.SetCursorPosition(regionState.X, LineNumber++);
             }
         }
