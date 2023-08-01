@@ -8,21 +8,33 @@ namespace SimpleFactory.Regions
 {
     public abstract class Region
     {
+        public bool IsVisible { get; set; }
+        public bool WasVisible { get; set; }
         internal ConsoleState regionState { get; set; }
-        public Region(int X, int Y, int width, int height, ConsoleColor color)
+        public Region(int X, int Y, int width, int height, bool isVisible, ConsoleColor color)
         {
+            IsVisible = isVisible;
             regionState = new ConsoleState(X, Y, width, height, color);              
+            WasVisible = false;
+        }
+        internal ConsoleState SaveConsoleState()
+        {
+            ConsoleState state = new ConsoleState();
+            return state;
+        }
+        internal void RestoreConsoleState(ConsoleState state)
+        {
+            Console.SetCursorPosition(state.X, state.Y);
+            Console.ForegroundColor = state.Color;
         }
         public void UpdateRegionText()
         {
             ConsoleState state = SaveConsoleState();
-            ClearRegion();
             regionState.SetState();
             UpdateText();
-          //  RestoreConsoleState (state);
+            RestoreConsoleState (state);
         }
 
-//        public abstract void WriteText(string text); 
         public abstract void UpdateText();
 
         public void ClearRegion()
@@ -58,26 +70,6 @@ namespace SimpleFactory.Regions
                 this.Height = height;   
                 this.Color = color;
             }
-        }
-        public static List<Region> Regions { get; set; }
-        static Region()
-        {
-            Regions = new List<Region>();
-        }
-        public static void UpdateAllRegions()
-        {
-            foreach (Region region in Regions)
-                region.UpdateRegionText();
-        }
-        internal ConsoleState SaveConsoleState()
-        {
-            ConsoleState state = new ConsoleState();
-            return state;
-        }
-        internal void RestoreConsoleState(ConsoleState state)
-        {
-            Console.SetCursorPosition(state.X, state.Y);
-            Console.ForegroundColor = state.Color;
         }
     }
 }

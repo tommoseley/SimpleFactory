@@ -10,7 +10,7 @@ namespace SimpleFactory.Regions
     {
         public ConsoleColor ErrorColor { get; set; }
         private SortedList<DateTime, StatusRecord> statuses = new SortedList<DateTime, StatusRecord>();
-        public StatusRegion(int X, int Y, int width, int height, ConsoleColor color, ConsoleColor errorColor) : base(X, Y, width, height, color)
+        public StatusRegion(int X, int Y, int width, int height, bool isVisible, ConsoleColor color, ConsoleColor errorColor) : base(X, Y, width, height, isVisible, color)
         {
             ErrorColor = errorColor;
             OnStatusChangedHandler handler = new OnStatusChangedHandler(StatusChangeHandler);

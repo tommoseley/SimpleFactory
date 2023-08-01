@@ -9,7 +9,7 @@ namespace SimpleFactory.Regions
 {
     public class ActionRegion:Region
     {
-        public ActionRegion(int X, int Y, int width, int height, ConsoleColor color) : base(X, Y, width, height, color)
+        public ActionRegion(int X, int Y, int width, int height, bool isVisible, ConsoleColor color) : base(X, Y, width, height, isVisible, color)
         {
         }
         public override void UpdateText()

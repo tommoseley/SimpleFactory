@@ -10,7 +10,7 @@ namespace SimpleFactory.Regions
     public class HeaderRegion : Region
     {
         Inventory inventory;
-        public HeaderRegion(int X, int Y, int width, int height, ConsoleColor color) : base(X, Y, width, height, color)
+        public HeaderRegion(int X, int Y, int width, int height, bool isVisible, ConsoleColor color) : base(X, Y, width, height, isVisible, color)
         {
         }
         public override void UpdateText()

@@ -10,13 +10,12 @@ namespace SimpleFactory.Regions
     public class InventoryRegion : Region
     {
         Inventory inventory;
-        public InventoryRegion(int X, int Y, int width, int height, ConsoleColor color, Inventory inventory) : base(X, Y, width, height, color)
+        public InventoryRegion(int X, int Y, int width, int height, bool isVisible, ConsoleColor color, Inventory inventory) : base(X, Y, width, height, isVisible, color)
         {
             this.inventory = inventory;
         }
         public override void UpdateText()
         {
-            ClearRegion();
             int LineNumber = regionState.Y;
             Console.SetCursorPosition(regionState.X, LineNumber++);
             Console.Write("Inventory:");
