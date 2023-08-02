@@ -10,7 +10,6 @@
   <ItemGroup>
     <Compile Remove="Data\Plan.cs" />
     <Compile Remove="Data\PlanRequirement.cs" />
-    <Compile Remove="Regions\TimerDecorator.cs" />
     <Compile Remove="Thing.cs" />
     <Compile Remove="ThingCollection.cs" />
   </ItemGroup>

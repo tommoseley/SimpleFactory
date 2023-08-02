@@ -10,9 +10,8 @@ namespace SimpleFactory.Regions
     {
         public ConsoleColor ErrorColor { get; set; }
         private SortedList<DateTime, StatusRecord> statuses = new SortedList<DateTime, StatusRecord>();
-        public StatusRegion(int X, int Y, int width, int height, bool isVisible, ConsoleColor color, ConsoleColor errorColor) : base(X, Y, width, height, isVisible, color)
-        {
-            ErrorColor = errorColor;
+        public StatusRegion()
+        { 
             OnStatusChangedHandler handler = new OnStatusChangedHandler(StatusChangeHandler);
             Status.Current.OnStatusChanged += handler;
         }
@@ -23,13 +22,13 @@ namespace SimpleFactory.Regions
         }
         public override void UpdateText()
         {
-            int LineNumber = regionState.Y;
-            Console.SetCursorPosition(regionState.X, LineNumber++);
+            int LineNumber = Y;
+            Console.SetCursorPosition(X, LineNumber++);
             foreach (KeyValuePair<DateTime, StatusRecord> pair in statuses.Reverse())
             {
-                Console.ForegroundColor = pair.Value.isSuccessful ? regionState.Color : ErrorColor;
+                Console.ForegroundColor = pair.Value.isSuccessful ? Color : ErrorColor;
                 Console.WriteLine(string.Format("{0:} - {1}", pair.Value.Timestamp.ToString(), pair.Value.Message));
-                Console.SetCursorPosition(regionState.X, LineNumber++);
+                Console.SetCursorPosition(X, LineNumber++);
             }
         }
         internal class StatusRecord

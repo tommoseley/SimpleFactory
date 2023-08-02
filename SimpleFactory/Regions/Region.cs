@@ -9,66 +9,42 @@ namespace SimpleFactory.Regions
     public abstract class Region
     {
         public bool IsVisible { get; set; }
-        public bool WasVisible { get; set; }
-        internal ConsoleState regionState { get; set; }
-        public Region(int X, int Y, int width, int height, bool isVisible, ConsoleColor color)
+        public int X;
+
+        public int Y;
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        internal ConsoleColor Color;
+        public Region()
+        {
+            contents = new List<string>();
+        }
+        public Region(int X, int Y, int width, int height, bool isVisible, ConsoleColor color) : base ()
         {
             IsVisible = isVisible;
-            regionState = new ConsoleState(X, Y, width, height, color);              
-            WasVisible = false;
+            this.X = X;
+            this.Y = Y;
+            this.Width = width;
+            this.Height = height;
+            this.Color = color;
         }
-        internal ConsoleState SaveConsoleState()
+        public List<string> contents;        
+        public void UpdateRegion()
         {
-            ConsoleState state = new ConsoleState();
-            return state;
-        }
-        internal void RestoreConsoleState(ConsoleState state)
-        {
-            Console.SetCursorPosition(state.X, state.Y);
-            Console.ForegroundColor = state.Color;
-        }
-        public void UpdateRegionText()
-        {
-            ConsoleState state = SaveConsoleState();
-            regionState.SetState();
+
+            Console.ForegroundColor = Color;
             UpdateText();
-            RestoreConsoleState (state);
         }
 
         public abstract void UpdateText();
 
         public void ClearRegion()
         {
-            for (int i = regionState.Y; i < regionState.Y + regionState.Height; i++)
+            for (int i = Y; i < Y + Height; i++)
             {
-                Console.SetCursorPosition(regionState.X, i);
-                Console.Write(new string(' ', regionState.Width));
-            }
-        }
-
-        internal struct ConsoleState
-        {
-            internal int X;
-
-            internal int Y;
-            public int Width { get; set; }
-            public int Height { get; set; }
-
-            internal ConsoleColor Color;
-            internal void SetState()
-            {
-                Console.SetCursorPosition(X, Y);
-                Console.ForegroundColor = Color;
-            }
-            public ConsoleState() : this(Console.CursorLeft, Console.CursorTop, Console.WindowWidth, Console.WindowHeight, Console.ForegroundColor)
-            { }
-            public ConsoleState(int X, int Y, int width, int height, ConsoleColor color)
-            {
-                this.X = X;
-                this.Y = Y;
-                this.Width = width;
-                this.Height = height;   
-                this.Color = color;
+                Console.SetCursorPosition(X, i);
+                Console.Write(new string(' ', Width));
             }
         }
     }

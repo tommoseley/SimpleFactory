@@ -23,13 +23,13 @@ namespace SimpleFactory
             FactoryInventory = new Inventory() { Name = "Factory Inventory" };
             FactoryInventory.Create();
             string? val;
-            regions.Add(new HeaderRegion(Console.WindowWidth / 2, 0, (Console.WindowWidth / 2) - 1, 5, true, ConsoleColor.White));
-            regions.Add(new StatusRegion(0, 7, (Console.WindowWidth / 2) - 1, Console.WindowHeight - 12, true, ConsoleColor.Green, ConsoleColor.Red));
-            inventoryRegion = new InventoryRegion(Console.WindowWidth / 2, 6, Console.WindowWidth / 2, Console.WindowHeight - 8, true, ConsoleColor.Yellow, FactoryInventory);
+            regions.Add(new ActionRegion() { X = 0, Y = 0, Width = (Console.WindowWidth / 2) - 1, Height = 6, IsVisible = true, Color = ConsoleColor.White });
+            regions.Add(new StatusRegion() { X = 0, Y = 7, Width = (Console.WindowWidth / 2) - 1, Height = Console.WindowHeight - 12, IsVisible = true, Color = ConsoleColor.Green, ErrorColor = ConsoleColor.Red });
+            regions.Add(new HeaderRegion() { X = Console.WindowWidth / 2, Y = 0, Width = (Console.WindowWidth / 2) - 1, Height = 5, IsVisible = true, Color = ConsoleColor.White });
+            inventoryRegion = new InventoryRegion() { X = Console.WindowWidth / 2, Y = 6, Width = Console.WindowWidth / 2, Height = Console.WindowHeight - 8, IsVisible = true, Color = ConsoleColor.Yellow, Parts = FactoryInventory };    
             regions.Add(inventoryRegion);
-            machinesRegion = new MachinesRegion(Console.WindowWidth / 2, 6, Console.WindowWidth / 2, Console.WindowHeight - 8, false, ConsoleColor.Cyan);
+            machinesRegion = new MachinesRegion() { X = Console.WindowWidth / 2, Y = 6, Width = Console.WindowWidth / 2, Height = Console.WindowHeight - 8, IsVisible = false, Color = ConsoleColor.Cyan };
             regions.Add(machinesRegion);
-            regions.Add(new ActionRegion(0, 0, (Console.WindowWidth / 2) - 1, 7, true, ConsoleColor.White));
             Status.Current.Set("Factory Started", true);
             Status.Current.Set("Inventory Started", true);
             Plan.Create();
@@ -44,7 +44,8 @@ namespace SimpleFactory
                     region.ClearRegion();
                 foreach (Region region in regions)
                     if (region.IsVisible == true)
-                        region.UpdateText(); 
+                        region.UpdateRegion();
+                Console.SetCursorPosition(3, 3);
                 val = Console.ReadLine();
                 if (string.IsNullOrEmpty(val)) { continue; }
                 action.Parse(val);

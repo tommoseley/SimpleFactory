@@ -13,30 +13,33 @@ namespace SimpleFactory
         {
             Name = string.Empty;
             Produces = string.Empty;
-            Requires = new();
+            Parts = new();
+            TimeToMake = new();
         }
-        public Plan(string produces, string name) : this()
+        public Plan(string produces, string name, TimeSpan timeToMake) : this()
         {
             try
             {
                 Name = name;
                 Produces = produces;
+                TimeToMake = timeToMake;
             }
             catch (Exception)
             {
                 throw new Exception($"Could not find {produces} in the list of things");
             }
         }
+        public TimeSpan TimeToMake { get; set; }
         public string Name { get; set; }
         public string Produces { get; set; }
-        public Dictionary<string, int> Requires { get; set; }
-        public void AddRequirement(string componentName, int count)
+        public Dictionary<string, int> Parts { get; set; }
+        public void AddPart(string componentName, int count)
         {
-            Requires.Add(componentName, count);
+            Parts.Add(componentName, count);
         }
         internal bool CanMake(Inventory inventory)
         {
-            foreach (string key in Requires.Keys)
+            foreach (string key in Parts.Keys)
             {
                 if (!inventory.Items.ContainsKey(key)) return false;
 
@@ -47,9 +50,9 @@ namespace SimpleFactory
         {
             if (CanMake(inventory))
             {
-                foreach (string key in Requires.Keys)
+                foreach (string key in Parts.Keys)
                 {
-                    inventory.Remove(key, Requires[key]);
+                    inventory.Remove(key, Parts[key]);
                 }
                 inventory.Add(Produces, 1);
                 return true;
@@ -69,9 +72,9 @@ namespace SimpleFactory
         private static SortedList<string, Plan> contents = new SortedList<string, Plan>(StringComparer.OrdinalIgnoreCase);
         public static void Create()
         {
-            Add("Steel Block", "Steel Block", new Requirement("Iron", 5), new Requirement("Carbon", 1));
-            Add("Steel Plate", "Steel Plate", new Requirement("Steel Block", 3));
-            Add("Steel Sheet", "Steel Sheet", new Requirement("Steel Plate", 1));
+            Add("Steel Block", "Steel Block", TimeSpan.FromSeconds(5), new Requirement("Iron", 5), new Requirement("Carbon", 1));
+            Add("Steel Plate", "Steel Plate", TimeSpan.FromSeconds(30), new Requirement("Steel Block", 3));
+            Add("Steel Sheet", "Steel Sheet", TimeSpan.FromSeconds(30), new Requirement("Steel Plate", 1));
         }
         public static Plan Get(string name)
         {
@@ -82,12 +85,12 @@ namespace SimpleFactory
                 throw new BlueprintNotFoundException($"Blueprint {name} not found");
             }
         }
-        public static void Add(string name, string produced, params Requirement[] requirements)
+        public static void Add(string name, string produced, TimeSpan timeToMake, params Requirement[] requirements)
         {
-            Plan blueprint = new(produced, name);
+            Plan blueprint = new(produced, name, timeToMake);
             foreach (Requirement requirement in requirements)
             {
-                blueprint.AddRequirement(requirement.Name, requirement.Count);
+                blueprint.AddPart(requirement.Name, requirement.Count);
             }
             contents.Add(name, blueprint);
         }

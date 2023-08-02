@@ -9,21 +9,21 @@ namespace SimpleFactory.Regions
 {
     public class InventoryRegion : Region
     {
-        Inventory inventory;
-        public InventoryRegion(int X, int Y, int width, int height, bool isVisible, ConsoleColor color, Inventory inventory) : base(X, Y, width, height, isVisible, color)
+        public Inventory Parts;
+        public InventoryRegion()
         {
-            this.inventory = inventory;
         }
         public override void UpdateText()
         {
-            int LineNumber = regionState.Y;
-            Console.SetCursorPosition(regionState.X, LineNumber++);
+            int LineNumber = Y;
+            Console.SetCursorPosition(X, LineNumber++);
             Console.Write("Inventory:");
-            Console.SetCursorPosition(regionState.X, LineNumber++);
-            foreach (string key in inventory.Items.Keys)
+            Console.SetCursorPosition(X, LineNumber++);
+            foreach (string key in Parts.Items.Keys)
             {
-                Console.WriteLine($"{key} - {inventory.Items[key].Quantity}");
-                Console.SetCursorPosition(regionState.X, LineNumber++);
+                string line = $"{key} - {Parts.Items[key].Quantity}";
+                Console.WriteLine(line);
+                Console.SetCursorPosition(X, LineNumber++);
             }
         }
     }

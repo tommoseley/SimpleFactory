@@ -9,19 +9,17 @@ namespace SimpleFactory.Regions
 {
     public class HeaderRegion : Region
     {
-        Inventory inventory;
-        public HeaderRegion(int X, int Y, int width, int height, bool isVisible, ConsoleColor color) : base(X, Y, width, height, isVisible, color)
+        public HeaderRegion()
         {
         }
         public override void UpdateText()
         {
-            ClearRegion();
-            int LineNumber = regionState.Y;
-            Console.SetCursorPosition(regionState.X, LineNumber++);
+            int LineNumber = Y;
+            Console.SetCursorPosition(X, LineNumber++);
             Console.WriteLine("Stuff you can do:");
-            Console.SetCursorPosition(regionState.X, LineNumber++);
+            Console.SetCursorPosition(X, LineNumber++);
             Console.Write("Inv > Inventory Stuff               Mac > Machine Stuff");
-            Console.SetCursorPosition(regionState.X, LineNumber++);
+            Console.SetCursorPosition(X, LineNumber++);
         }
     }
 }
