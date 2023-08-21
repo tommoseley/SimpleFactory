@@ -18,14 +18,21 @@ namespace SimpleFactory
         public void Add(string name, int priceBasis, int quantity)
         {
             if (!Items.ContainsKey(name))
-                Items.Add(name, new InventoryDetail () { Quantity = quantity, CostBasis = priceBasis });
+                Items.Add(name, new InventoryDetail () 
+                { 
+                    Quantity = quantity, 
+                    CostBasis = priceBasis 
+                });
         }
         public void Add(string name, int quantity)
         {
             if (Items.ContainsKey(name))
             {
                 InventoryDetail item = new InventoryDetail()
-                { CostBasis = Items[name].CostBasis, Quantity = Items[name].Quantity + quantity };
+                { 
+                    CostBasis = Items[name].CostBasis, 
+                    Quantity = Items[name].Quantity + quantity 
+                };
                 Items[name] = item;
             }
         }

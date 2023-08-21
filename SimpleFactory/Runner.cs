@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using static System.Collections.Specialized.BitVector32;
 using System.Xml.Linq;
 using SimpleFactory.Regions;
+using System.Timers;
+
 namespace SimpleFactory
 {
     public class Runner
@@ -40,12 +42,7 @@ namespace SimpleFactory
             Console.WriteLine("Welcome to IndustrySim");
             while (true)
             {
-                foreach (Region region in regions)
-                    region.ClearRegion();
-                foreach (Region region in regions)
-                    if (region.IsVisible == true)
-                        region.UpdateRegion();
-                Console.SetCursorPosition(3, 3);
+                ResetConsole();
                 val = Console.ReadLine();
                 if (string.IsNullOrEmpty(val)) { continue; }
                 action.Parse(val);
@@ -55,6 +52,16 @@ namespace SimpleFactory
                     break;
                 }
             }
+        }
+        private void ResetConsole()
+        {
+            foreach (Region region in regions)
+                region.ClearRegion();
+            foreach (Region region in regions)
+                if (region.IsVisible == true)
+                    region.UpdateRegion();
+            Console.SetCursorPosition(3, 3);
+
         }
         private void Action_OnCommand(object sender, CommandEventArgs action)
         {
@@ -88,9 +95,17 @@ namespace SimpleFactory
                         Console.Write("(y/n) >");
                         if (Console.ReadLine() == "y")
                         {
+                            System.Timers.Timer timer = new System.Timers.Timer(5000);
                             int totalSpent = action.Count * FactoryInventory.Items[action.Item].CostBasis;
-                            FactoryInventory.Add(action.Item, action.Count);
                             Status.Current.Set($"Bought {action.Count} {action.Item} for {totalSpent}", true);
+                            timer.Elapsed += (sender, e) =>
+                            {
+                                FactoryInventory.Add(action.Item, action.Count);
+                                timer.Stop();
+                                Status.Current.Set($"{action.Count} {action.Item} delivered", true);
+                                ResetConsole();
+                            };
+                            timer.Start();
                         }
                     }
                     break;
